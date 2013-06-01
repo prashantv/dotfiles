@@ -50,6 +50,9 @@ alias ':q'=exit
 # disable sharing history
 setopt no_share_history
 
+# Always use vim for everything
+export VISUAL=vim
+export EDITOR=vim
 
 # Env-specific settings
 source ~/.zshrc_local

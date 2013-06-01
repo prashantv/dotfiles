@@ -8,11 +8,16 @@ set nobackup            " get rid of anoying ~file
 
 set mouse=a
 
-execute pathogen#infect()
+if exists("g:loaded_pathogen")
+  execute pathogen#infect()
+endif
+
 filetype plugin indent on
 
-" auto open nerdtree when no params
-autocmd vimenter * if !argc() | NERDTree | endif
+if exists("g:loaded_nerdtree")
+  " auto open nerdtree when no params
+  autocmd vimenter * if !argc() | NERDTree | endif
+endif
 
 " :Q really closes everything
 command Q qa
