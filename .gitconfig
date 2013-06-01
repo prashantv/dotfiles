@@ -1,0 +1,12 @@
+
+[user]
+  email = prashant@prashantv.com
+  name = Prashant V
+
+[push]
+  default = simple
+
+# Allow overrides for local environment (like user)
+[include]
+  path = .gitconfig_local
+
