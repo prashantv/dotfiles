@@ -36,7 +36,8 @@ autocmd BufWritePre * :%s/\s\+$//e
 autocmd FileType py setlocal colorcolumn=80
 autocmd FileType builddefs setlocal colorcolumn=80
 autocmd FileType proto setlocal colorcolumn=80
-autocmd FileType js setlocal colorcolumn=80
+autocmd FileType javascript setlocal colorcolumn=80
+autocmd FileType soy setlocal colorcolumn=80
 
 
 
