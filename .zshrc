@@ -33,9 +33,18 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git tmux web-search)
+#plugins=(git tmux web-search)
+plugins=()
 
 source $ZSH/oh-my-zsh.sh
+
+# fix for slow git
+function git_prompt_info() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
+}
+# don't use bzr and doubt i ever will.
+function bzr_prompt_info() {}
 
 
 #cache-path must exist

@@ -11,6 +11,7 @@ set mouse=a
 if exists("g:loaded_pathogen")
   execute pathogen#infect()
 endif
+  execute pathogen#infect()
 
 filetype plugin indent on
 
@@ -43,6 +44,22 @@ autocmd FileType builddefs setlocal colorcolumn=80
 autocmd FileType proto setlocal colorcolumn=80
 autocmd FileType javascript setlocal colorcolumn=80
 autocmd FileType soy setlocal colorcolumn=80
+
+" javadoc to ctrl+q
+map <C-q> :JavaDocPreview<CR>
+map <C-Q> :JavaDocPreview<CR>
+
+map <C-H> :JavaSearch
+map <C-A-G> :JavaSearchContext<CR>
+map <C-S-F> :%JavaFormat<CR>
+map <C-S-R> :JavaRename
+map <C-F11> :JavaSearchva %<CR>
+map <S-A-J> :JavaDocComment<CR>
+map <S-A-O> :JavaImportOrganize<CR>
+map <S-F2> :JavaDocSearch<CR>
+map <F2> :JavaDocPreview<CR>
+map <F3> :JavaSearchContext<CR>
+map <F4> :JavaHierarchy<CR>
 
 
 

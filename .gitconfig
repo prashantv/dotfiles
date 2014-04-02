@@ -37,3 +37,5 @@
 [include]
   path = .gitconfig_local
 
+[log]
+	date = local

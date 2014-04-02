@@ -9,6 +9,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Prompt
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig
+import XMonad.Util.Loggers
 import XMonad.Util.Run
 import XMonad.Actions.GridSelect
 import XMonad.Layout.Gaps
@@ -18,13 +19,14 @@ import Data.List
 (~=?) :: Eq a => Query [a] -> [a] -> Query Bool
 q ~=? x = fmap (isInfixOf x) q
 
-manageIdeaCompletionWindow = (className =? "jetbrains-idea") <&&> (title ~=? "win") --> doIgnore
+manageIdeaCompletionWindow = (className =? "jetbrains-") <&&> (title ~=? "win") --> doIgnore
 
 myManageHook = composeAll
   [ className =? "Xmessage" --> doFloat
   , className =? "Unity-2d-panel" --> doIgnore
   , className =? "Unity-2d-launcher" --> doIgnore
   , className =? "sun-awt-X11-XWindowPeer" --> doIgnore
+  , appName   =? "crx_nckgahadagoaajjgafhacjanaoiihapd" --> doFloat
   , manageDocks
   ]
 myLayouts = avoidStruts $ layoutHook gnomeConfig
@@ -50,6 +52,7 @@ main = do
       { ppOutput = hPutStrLn xmproc
       , ppTitle = xmobarColor "blue" "" . shorten 50
       , ppLayout = const "" -- to disable layout info on xmobar
+      , ppExtras = [ wrapL "Load: " " " loadAvg ]
       }
     , startupHook = setWMName "LG3D"
     }
@@ -62,10 +65,10 @@ main = do
      , ((mod4Mask, xK_a), toggleWS)
      , ((mod4Mask, xK_r), spawnSelected defaultGSConfig
        [ "chrome"
-       , "gnome-terminal"
-       , "gvim"
-       , "eclipse38"
        , "idea.sh"
+       , "idea13.sh"
+       , "gvim"
+       , "eclipse43"
        , "sound"
        , "~/bin/panel"
        , "pinta"
