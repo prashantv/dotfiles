@@ -1,41 +1,23 @@
-
-[user]
-  email = prashant@prashantv.com
-  name = Prashant V
-
-[push]
-  default = simple
-
-[diff]
-  # Much nicer diffs
-  patience = true
-
 [alias]
-  # log with local times
-  llog = log --date=local
-
-  # what files are changed
-  changes  = diff --name-status -r
-  diffstat = diff --stat -r
-
-
-  # easy way to track or untrack files
-  assume   = update-index --assume-unchanged
-  unassume = update-index --no-assume-unchanged
-  assumed  = "!git ls-files -v | grep ^h | cut -c 3-"
-
-  # snapshot work but don't stash it away
-  snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
-
-  # this really shouldn't be this complicated
-  ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
-  theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
-
-
-
-# Allow overrides for local environment (like user)
-[include]
-  path = .gitconfig_local
-
-[log]
-	date = local
+	b     = branch
+	ci    = commit
+	co    = checkout
+	d     = diff
+	st    = status
+	l     = log --graph
+	lp    = log --graph --first-parent
+[user]
+	email = prashant@prashantv.com
+	name = Prashant V
+[branch]
+	autosetuprebase = always
+[rerere]
+	enabled = true
+[push]
+	default = simple
+[filter "lfs"]
+	clean = git lfs clean %f
+	smudge = git lfs smudge %f
+	required = true
+[help]
+	autocorrect = 5
