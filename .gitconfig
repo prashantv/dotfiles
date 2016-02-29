@@ -21,3 +21,14 @@
 	required = true
 [help]
 	autocorrect = 5
+
+[alias]
+  # log with local times
+  llog = log --date=local
+  # what files are changed
+  changes  = diff --name-status -r
+
+
+# Allow overrides for local environment (like user)
+[include]
+  path = .gitconfig_local
