@@ -29,6 +29,13 @@ function switchToApp(app)
       return
     end
   end
+
+  for _, w in ipairs(appWindows) do
+    if w ~= curWindow then
+      w:focus()
+      return
+    end
+  end
 end
 
 function inRange(a, b, c)
