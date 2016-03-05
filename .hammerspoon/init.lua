@@ -258,7 +258,8 @@ function isFullScreen(f)
      f.h >= screen.h and f.w >= screen.w
 end
 
--- Draw a orange border on current focused window, unless it's full screen.
+-- Draw a orange border on current focused iTerm window
+-- Only applies for non-fullscreen iTerm windows.
 function redrawBorder()
   if global_border ~= nil then
       global_border:delete()
@@ -266,6 +267,10 @@ function redrawBorder()
 
   win = hs.window.focusedWindow()
   if win == nil then
+    return
+  end
+
+  if win:application():name() ~= "iTerm" then
     return
   end
 
@@ -286,12 +291,18 @@ function redrawBorder()
 end
 
 allwindows = hs.window.filter.new(nil)
+
 allwindows:subscribe(hs.window.filter.windowCreated, redrawBorder)
 allwindows:subscribe(hs.window.filter.windowDestroyed, redrawBorder)
 allwindows:subscribe(hs.window.filter.windowFocused, redrawBorder)
+allwindows:subscribe(hs.window.filter.windowFullscreened, redrawBorder)
+allwindows:subscribe(hs.window.filter.windowHidden, redrawBorder)
+allwindows:subscribe(hs.window.filter.windowMinimized, redrawBorder)
 allwindows:subscribe(hs.window.filter.windowMoved, redrawBorder)
 allwindows:subscribe(hs.window.filter.windowUnfocused, redrawBorder)
-
+allwindows:subscribe(hs.window.filter.windowUnfullscreened, redrawBorder)
+allwindows:subscribe(hs.window.filter.windowUnhidden, redrawBorder)
+allwindows:subscribe(hs.window.filter.windowUnminimized, redrawBorder)
 redrawBorder()
 
 
