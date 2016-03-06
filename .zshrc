@@ -73,8 +73,12 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 
 # Prashant's custom settings
 
+# Aliases
 # vim quit
 alias ':q'=exit
+alias g=git
+alias l=ls
+alias ll=ls -al
 
 # disable sharing history
 setopt no_share_history
