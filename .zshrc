@@ -90,3 +90,5 @@ export EDITOR=vim
 # Env-specific settings
 source ~/.zshrc_local
 
+[ -s "/Users/prashant/.dnx/dnvm/dnvm.sh" ] && . "/Users/prashant/.dnx/dnvm/dnvm.sh" # Load dnvm
+
