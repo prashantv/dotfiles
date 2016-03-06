@@ -46,6 +46,26 @@ function git_prompt_info() {
 # don't use bzr and doubt i ever will.
 function bzr_prompt_info() {}
 
+function jg() {
+  if [ -d $GOPATH/src/github.com/prashantv/$1 ]; then
+    cd $GOPATH/src/github.com/prashantv/$1
+    return
+  fi
+  if [ -d $GOPATH/src/$1 ]; then
+    cd $GOPATH/src/$1
+    return
+  fi
+
+  # Try every directory in $GOPATH to see if there's a match.
+  for f in $(echo $GOPATH/src/*); do
+    if [ -d $f/$1 ]; then
+      cd $f/$1
+      return
+    fi
+  done
+  echo "Failed to find match in $GOPATH for $1"
+}
+
 
 #cache-path must exist
 zstyle ':completion:*' use-cache on
