@@ -79,6 +79,7 @@ alias ':q'=exit
 alias g=git
 alias l=ls
 alias ll=ls -al
+alias ag='ag --path-to-agignore=~/.agignore'
 
 # disable sharing history
 setopt no_share_history
