@@ -37,16 +37,18 @@ function switchToApp(app)
 
     if (w ~= curWindow) and w:screen() == curScreen then
       w:focus()
-      return
+      return true
     end
   end
 
   for _, w in ipairs(appWindows) do
     if w ~= curWindow then
       w:focus()
-      return
+      return true
     end
   end
+
+  return false
 end
 
 function inRange(a, b, c)
@@ -343,15 +345,23 @@ redrawBorder()
 -- Print all app names:
 -- for _, w in ipairs(hs.window.allWindows()) do print(w:application():name()) end
 
-function bindApp(key, app)
+function bindApp(key, apps)
+  if type(apps) ~= "table" then
+    apps = {apps}
+  end
+
   hs.hotkey.bind({"cmd", "ctrl"}, key, function()
-    switchToApp(app)
+    for i, app in ipairs(apps) do
+      if switchToApp(app) then
+        return
+      end
+    end
   end)
 end
 
-bindApp("1", "Google Chrome")
-bindApp("2", "iTerm")
-bindApp("3", "Atom")
+bindApp("1", {"Google Chrome", "Safari"})
+bindApp("2", {"iTerm", "Terminal"})
+bindApp("3", {"Code - Insiders", "Atom"})
 bindApp("4", "HipChat")
 
 -- Move shortcuts
