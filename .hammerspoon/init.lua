@@ -28,7 +28,7 @@
 -- shortcut repeatedly.
 function switchToApp(app)
   local curWindow = hs.window.focusedWindow()
-  local curScreen = curWindow:screen()
+  local curScreen = hs.screen.primaryScreen()
   local wf = hs.window.filter.new(app)
 
   local appWindows = {}
