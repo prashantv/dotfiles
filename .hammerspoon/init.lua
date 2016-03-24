@@ -214,6 +214,10 @@ local expose = hs.expose.new()
 function createWindowChooser()
   choseWindow = function(w)
     local window = hs.window.get(w["id"])
+    hs.alert.show("Switch to" .. window:title())
+    window:becomeMain()
+    window:focus()
+    window:focus()
     window:focus()
   end
 
