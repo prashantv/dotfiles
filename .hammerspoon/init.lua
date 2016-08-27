@@ -393,7 +393,7 @@ end
 
 bindApp("1", {"Google Chrome", "Safari"})
 bindApp("2", {"iTerm", "Terminal"})
-bindApp("3", {"Code - Insiders", "Atom"})
+bindApp("3", {"Code - Insiders", "Code", "Atom"})
 bindApp("4", "HipChat")
 
 -- Move shortcuts
