@@ -259,10 +259,30 @@ function wifiToggle()
   ]])
 end
 
+function brighter()
+  local curScreen = hs.screen.primaryScreen()
+  local brightness = curScreen:getBrightness()
+  if brightness == nil then
+    return
+  end
+  curScreen:setBrightness(math.min(brightness + 0.1, 1.0))
+end
+
+function dimmer()
+  local curScreen = hs.screen.primaryScreen()
+  local brightness = curScreen:getBrightness()
+  if brightness == nil then
+    return
+  end
+  curScreen:setBrightness(math.max(brightness - 0.1, 0))
+end
+
 function createActionChooser()
   local actionIds = {
     [1] = lock,
     [2] = wifiToggle,
+    [3] = brighter,
+    [4] = dimmer,
   }
   choseAction = function(a)
     actionIds[a["id"]]()
@@ -281,7 +301,16 @@ function createActionChooser()
       ["subText"] = "Toggle wireless adapter",
       ["id"] = 2,
     },
-    -- TODO: change brightness on external mac display.
+    {
+      ["text"] = "Brighter",
+      ["subText"] = "Increase brightness of current screen",
+      ["id"] = 3,
+    },
+    {
+      ["text"] = "Dimmer",
+      ["subText"] = "Decrease brightness of current screen",
+      ["id"] = 4,
+    },
   }
   chooser:choices(actions)
 
