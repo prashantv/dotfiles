@@ -259,30 +259,59 @@ function wifiToggle()
   ]])
 end
 
-function brighter()
-  local curScreen = hs.screen.primaryScreen()
-  local brightness = curScreen:getBrightness()
-  if brightness == nil then
-    return
+function createBrightnessChooser()
+  changeBrightness = function(val)
+    local curScreen = hs.screen.primaryScreen()
+    local brightness = curScreen:getBrightness()
+    if brightness == nil then
+      return
+    end
+    brightness = brightness + val
+    brightness = math.min(brightness, 1.0)
+    brightness = math.max(brightness, 0)
+    curScreen:setBrightness(brightness)
   end
-  curScreen:setBrightness(math.min(brightness + 0.1, 1.0))
-end
 
-function dimmer()
-  local curScreen = hs.screen.primaryScreen()
-  local brightness = curScreen:getBrightness()
-  if brightness == nil then
-    return
+  local chooser
+  chooser = hs.chooser.new(function(a)
+    changeBrightness(a["val"])
+    chooser:show()
+  end)
+
+  local actions = {
+    {
+      ["text"] = "Dimmer",
+      ["subText"] = "Decreases brightness by 10%",
+      ["val"] = -0.1,
+    },
+    {
+      ["text"] = "Brighter",
+      ["subText"] = "Increases brightness by 10%",
+      ["val"] = 0.1,
+    },
+    {
+      ["text"] = "Slightly dimmer",
+      ["subText"] = "Decreases brightness by 1%",
+      ["val"] = -0.01,
+    },
+    {
+      ["text"] = "Slightly brighter",
+      ["subText"] = "Increases brightness by 1%",
+      ["val"] = 0.01,
+    },
+  }
+  chooser:choices(actions)
+  return function()
+    chooser:show()
   end
-  curScreen:setBrightness(math.max(brightness - 0.1, 0))
 end
 
 function createActionChooser()
+  showBrightness = createBrightnessChooser()
   local actionIds = {
     [1] = lock,
     [2] = wifiToggle,
-    [3] = brighter,
-    [4] = dimmer,
+    [3] = showBrightness,
   }
   choseAction = function(a)
     actionIds[a["id"]]()
@@ -302,14 +331,9 @@ function createActionChooser()
       ["id"] = 2,
     },
     {
-      ["text"] = "Brighter",
-      ["subText"] = "Increase brightness of current screen",
+      ["text"] = "Brightness",
+      ["subText"] = "Control brightness of current screen",
       ["id"] = 3,
-    },
-    {
-      ["text"] = "Dimmer",
-      ["subText"] = "Decrease brightness of current screen",
-      ["id"] = 4,
     },
   }
   chooser:choices(actions)
