@@ -244,7 +244,7 @@ createWindowChooser()
 
 
 function lock()
-  hs.applescript.applescript('tell application "Finder" to sleep')
+  hs.application.open('/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app')
 end
 
 function wifiToggle()
