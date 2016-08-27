@@ -291,10 +291,9 @@ function createActionChooser()
 end
 createActionChooser()
 
-function isFullScreen(f)
+function isLargeWindow(f)
   local screen = win:screen():frame()
-  return f.x <= screen.x and f.y <= screen.y and
-     f.h >= screen.h and f.w >= screen.w
+  return f.area > 0.4 * screen.area
 end
 
 -- Draw a orange border on current focused iTerm window
@@ -309,11 +308,11 @@ function redrawBorder()
     return
   end
 
-  if win:application():name() ~= "iTerm" then
+  if win:application():name() ~= "iTerm" and win:application():name() ~= "Terminal" then
     return
   end
 
-  if isFullScreen(win:frame()) then
+  if isLargeWindow(win:frame()) then
     return
   end
 
