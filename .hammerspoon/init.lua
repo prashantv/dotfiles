@@ -202,13 +202,12 @@ bindMoveToScreen("down", function(w)
 end)
 
 
-hs.hints.style = "vimperator"
-
-local expose = hs.expose.new()
--- hs.hotkey.bind({"alt"}, "tab", function()
---   --hs.hints.windowHints()
---   expose:show()
--- end)
+hs.hotkey.bind({"alt"}, "`", function()
+  hs.hints.windowHints(hs.window.focusedWindow():application():allWindows())
+end)
+hs.hotkey.bind({"alt"}, "tab", function()
+  hs.hints.windowHints()
+end)
 
 
 function createWindowChooser()
@@ -216,13 +215,12 @@ function createWindowChooser()
     local window = hs.window.get(w["id"])
     hs.alert.show("Switch to" .. window:title())
     window:becomeMain()
-    window:focus()
-    window:focus()
+    window:raise()
     window:focus()
   end
 
   local chooser = hs.chooser.new(choseWindow)
-  hs.hotkey.bind({"alt"}, "tab", function()
+  hs.hotkey.bind({"alt", "shift"}, "tab", function()
     local windows = {}
     local wf = hs.window.filter.new()
 
@@ -416,8 +414,8 @@ function bindApp(key, apps)
 end
 
 bindApp("1", {"Google Chrome", "Safari"})
-bindApp("2", {"iTerm", "Terminal"})
-bindApp("3", {"Code - Insiders", "Code", "Atom"})
+bindApp("2", {"iTerm2", "Terminal", "iTerm"})
+bindApp("3", {"Code", "Atom", "Code - Insiders"})
 bindApp("4", "HipChat")
 
 -- Move shortcuts
