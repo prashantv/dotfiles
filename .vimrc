@@ -8,10 +8,13 @@ set nobackup            " get rid of anoying ~file
 
 set mouse=a
 
-if exists("g:loaded_pathogen")
-  execute pathogen#infect()
-endif
-  execute pathogen#infect()
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/seoul256.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'fatih/vim-go'
+Plug 'Valloric/YouCompleteMe'
+call plug#end()
 
 filetype plugin indent on
 
