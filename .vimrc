@@ -18,6 +18,9 @@ call plug#end()
 
 filetype plugin indent on
 
+" YCM is really slow, only enable for specific file types.
+let g:ycm_filetype_whitelist = { '*.go': 1 }
+
 if exists("g:loaded_nerdtree")
   " auto open nerdtree when no params
   autocmd vimenter * if !argc() | NERDTree | endif
