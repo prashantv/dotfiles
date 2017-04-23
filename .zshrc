@@ -68,6 +68,14 @@ function jg() {
   echo "Failed to find match in $GOPATH for $1"
 }
 
+fixssh() {
+  for key in SSH_AUTH_SOCK SSH_CONNECTION SSH_CLIENT; do
+    if (tmux show-environment | grep "^${key}" > /dev/null); then
+      value=`tmux show-environment | grep "^${key}" | sed -e "s/^[A-Z_]*=//"`
+      export ${key}="${value}"
+    fi
+  done
+}
 
 #cache-path must exist
 zstyle ':completion:*' use-cache on
