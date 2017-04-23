@@ -13,7 +13,6 @@ Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'fatih/vim-go'
-Plug 'Valloric/YouCompleteMe'
 call plug#end()
 
 filetype plugin indent on
