@@ -8,8 +8,7 @@
 -- 1: Chrome/Safari
 -- 2: iTerm/Terminal
 -- 3: VS Code/Atom
--- 4: HipChat
--- TODO: Add uChat
+-- 4: HipChat/uChat
 
 -- switchToApp will switch to a window for the given app name.
 -- It prefers windows on the current screen, that are not the current window.
@@ -63,4 +62,4 @@ end
 bindApp("1", {"Google Chrome", "Safari"})
 bindApp("2", {"iTerm2", "Terminal", "iTerm"})
 bindApp("3", {"Code", "Atom", "Code - Insiders"})
-bindApp("4", "HipChat")
+bindApp("4", {"HipChat", "uChat"})
