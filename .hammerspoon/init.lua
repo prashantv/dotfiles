@@ -25,6 +25,7 @@ require('border')
 require('screen')
 require('switch_app')
 require('switch_win')
+require('term')
 require('win')
 
 
