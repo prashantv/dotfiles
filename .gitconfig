@@ -1,11 +1,23 @@
 [alias]
+  a = add
 	b     = branch
-	ci    = commit
-	co    = checkout
-	d     = diff
-	st    = status
+  ap = add -p
+  cb = checkout -b
+  ci = commit
+  co = checkout
+  d = diff
+  ds = diff --stat
+  dc = diff --cached
+  dw = diff -w
 	l     = log --graph
 	lp    = log --graph --first-parent
+	st    = status
+
+  # log with local times
+  llog = log --date=local
+  # what files are changed
+  changes  = diff --name-status -r
+
 [user]
 	email = prashant@prashantv.com
 	name = Prashant V
@@ -21,13 +33,6 @@
 	required = true
 [help]
 	autocorrect = 5
-
-[alias]
-  # log with local times
-  llog = log --date=local
-  # what files are changed
-  changes  = diff --name-status -r
-
 
 # Allow overrides for local environment (like user)
 [include]
