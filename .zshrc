@@ -90,6 +90,7 @@ alias g=git
 alias l=ls
 alias ll=ls -al
 alias ag='ag --path-to-ignore=~/.agignore'
+alias pg='ping google.com'
 
 # disable sharing history
 setopt no_share_history
@@ -101,3 +102,4 @@ export EDITOR=vim
 # Env-specific settings
 source ~/.zshrc_local
 
+brew analytics off 2>&1 >/dev/null
