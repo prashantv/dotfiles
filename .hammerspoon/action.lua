@@ -2,9 +2,9 @@
 -- cmd+ctrl+shfit+tab:
 --   chooser that lets you choose between other actions.
 
-
 local function lock()
   hs.application.open('/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app')
+  return true
 end
 
 local function wifiToggle()
@@ -73,11 +73,15 @@ local function createActionChooser()
     [2] = wifiToggle,
     [3] = showBrightness,
   }
+
+  local chooser
   choseAction = function(a)
-    actionIds[a["id"]]()
+    if actionIds[a["id"]]() then
+      chooser:show()
+    end
   end
 
-  local chooser = hs.chooser.new(choseAction)
+  chooser = hs.chooser.new(choseAction)
 
   local actions = {
     {

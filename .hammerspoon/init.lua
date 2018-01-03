@@ -32,7 +32,6 @@ require('win')
 -- Notify that load was successful
 hs.alert.show("Hammerspoon config loaded")
 
-
 -- Reload automatically when anything in the .hammerspoon directory changes.
 local function reloadConfig()
   if configFileWatcher ~= nil then

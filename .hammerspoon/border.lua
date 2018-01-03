@@ -7,6 +7,8 @@ local function isLargeWindow(f)
   return f.area > 0.4 * screen.area
 end
 
+
+
 -- Draw a orange border on current focused iTerm window
 -- Only applies for non-fullscreen iTerm windows.
 local function redrawBorder()
