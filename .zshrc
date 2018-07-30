@@ -94,6 +94,7 @@ alias ll=ls -al
 alias ag='ag --path-to-ignore=~/.agignore'
 alias pg='ping google.com'
 
+
 # disable sharing history
 setopt no_share_history
 
@@ -101,7 +102,9 @@ setopt no_share_history
 export VISUAL=vim
 export EDITOR=vim
 
+# Disable brew analytics on OSX
+command -v brew >/dev/null 2>&1 && brew analytics off 2>&1 >/dev/null
+
 # Env-specific settings
 source ~/.zshrc_local
 
-brew analytics off 2>&1 >/dev/null
