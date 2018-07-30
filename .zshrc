@@ -91,6 +91,12 @@ bindkey "\eOD" backward-word
 bindkey "\e\e[D" backward-word
 
 # Aliases
+
+# fast with autojump aliases
+eval "$(fasd --init auto)"
+alias j='fasd_cd -d'     # cd, same functionality as j in autojump
+alias jj='fasd_cd -d -i' # cd with interactive selection
+
 # vim quit
 alias ':q'=exit
 alias g=git
