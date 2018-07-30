@@ -82,6 +82,8 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 
 # Prashant's custom settings
+export PATH="$HOME/bin:$PATH"
+
 
 # Aliases
 # vim quit
