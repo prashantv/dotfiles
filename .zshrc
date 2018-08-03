@@ -84,12 +84,6 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 # Prashant's custom settings
 export PATH="$HOME/bin:$PATH"
 
-# meta+arrows should skip (ctrl and alt)
-bindkey "\eOC" forward-word
-bindkey "\e\e[C" forward-word
-bindkey "\eOD" backward-word
-bindkey "\e\e[D" backward-word
-
 # Aliases
 
 # fast with autojump aliases
