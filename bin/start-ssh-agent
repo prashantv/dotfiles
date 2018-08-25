@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+
+# This script starts ssh-agent and records the environment for
+# scenarios where the OS doesn't do it (e.g., WSL, Linux VM).
+# To install:
+# 1. Ensure script is run on reboot (crontab @reboot for user)
+# 2. Add 'source ~/.ssh/environ' to shell startup (.zshrc_local).
+ENVFILE=~/.ssh/environ
+
+# If ssh-agent is running, quit.
+if pid=$(pgrep ssh-agent); then
+  echo "Found ssh-agent running already, PID: $pid."
+  echo "Please kill all running agents (pkill ssh-agent) and try again."
+  exit 1
+fi
+
+# Start the agent, and write out environment vars
+ssh-agent > $ENVFILE
+
+# Ensure only we can read/write this file.
+chmod 600 $ENVFILE
+
+echo "Started ssh-agent successfully"
+
