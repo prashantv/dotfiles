@@ -1,53 +1,20 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="frisk"
+
+autoload -Uz promptinit
+promptinit
+
+# %F{magenta}%n%f@%F{yellow}%m%f %F{green}%~%f ${git_info:+${(e)git_info[prompt]}}$
+
+# Customization over sorin:
+export PS1="%F{blue}%/%f [%n@%m] %F{gray} [%T]$f
+%F{white}>%f "
+# Should be set by sorin theme:
+export RPROMPT="$python_info[virtualenv]${editor_info[overwrite]}%(?:: %F{1}✘ %? %f)${VIM:+" %B%F{6}V%f%b"}${_prompt_sorin_git}"
+
 
 export GITHUB_USER=prashantv
-
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="false"
-
-# Comment this out to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment to change how many often would you like to wait before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-COMPLETION_WAITING_DOTS="true"
-
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-#plugins=(git tmux web-search)
-plugins=()
-
-source $ZSH/oh-my-zsh.sh
-
-# fix for slow git
-function git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
-}
-# don't use bzr and doubt i ever will.
-function bzr_prompt_info() {}
-
+#
 function jg() {
   if [ -d $GOPATH/src/github.com/prashantv/$1 ]; then
     cd $GOPATH/src/github.com/prashantv/$1
