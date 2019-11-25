@@ -4,13 +4,16 @@ source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 autoload -Uz promptinit
 promptinit
 
+setopt prompt_subst
+
 # %F{magenta}%n%f@%F{yellow}%m%f %F{green}%~%f ${git_info:+${(e)git_info[prompt]}}$
 
 # Customization over sorin:
 export PS1="%F{blue}%/%f [%n@%m] %F{gray} [%T]$f
 %F{white}>%f "
 # Should be set by sorin theme:
-export RPROMPT="$python_info[virtualenv]${editor_info[overwrite]}%(?:: %F{1}✘ %? %f)${VIM:+" %B%F{6}V%f%b"}${_prompt_sorin_git}"
+#export RPROMPT="\$python_info[virtualenv]\${editor_info[overwrite]}%(?:: %F{1}✘ %? %f)\${VIM:+" %B%F{6}V%f%b"}\${_prompt_sorin_git}"\\$
+export RPROMPT='$python_info[virtualenv]${editor_info[overwrite]}%(?:: %F{1}✘ %? %f)${VIM:+" %B%F{6}V%f%b"}${_prompt_sorin_git}'
 
 
 export GITHUB_USER=prashantv
