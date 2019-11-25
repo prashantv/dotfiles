@@ -19,8 +19,8 @@
   changes  = diff --name-status -r
 
 [user]
-	email = prashant@prashantv.com
-	name = Prashant V
+	email = prashant@uber.com
+	name = Prashant Varanasi
 [branch]
 	autosetuprebase = always
 [rerere]
@@ -49,4 +49,10 @@
 	followRedirects = true
 
 [core]
-	excludesfile = /Users/prashant/.gitignore_global
+	excludesfile = /home/prashant/.gitignore_global
+	compression = 9
+[url "ssh://code.uber.internal/"]
+	insteadOf = https://code.uber.internal/
+[url "ssh://config.uber.internal/"]
+	insteadOf = https://config.uber.internal/
+
