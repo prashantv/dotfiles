@@ -66,6 +66,8 @@ map <F2> :JavaDocPreview<CR>
 map <F3> :JavaSearchContext<CR>
 map <F4> :JavaHierarchy<CR>
 
+" Map jj in insert mode to esc, easy way to switch
+imap jj <Esc>
 
 
 "===========================================
