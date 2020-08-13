@@ -25,5 +25,6 @@ touch ~/.zshrc_local
   || git clone --recursive https://github.com/sorin-ionescu/prezto.git ~/.zprezto
 
 # git
-ln -sf `pwd`/.git* ~/
+ln -sf `pwd`/.gitconfig ~/
+ln -sf `pwd`/.gitignore_global ~/
 
