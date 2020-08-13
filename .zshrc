@@ -1,19 +1,24 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
+# Bash auto-completion compat
+autoload bashcompinit
+bashcompinit
 
+# Prompt theming
 autoload -Uz promptinit
 promptinit
 
 setopt prompt_subst
-
-# %F{magenta}%n%f@%F{yellow}%m%f %F{green}%~%f ${git_info:+${(e)git_info[prompt]}}$
-
-# Customization over sorin:
-export PS1="%F{blue}%/%f [%n@%m] %F{gray} [%T]$f
-%F{white}>%f "
-# Should be set by sorin theme:
-#export RPROMPT="\$python_info[virtualenv]\${editor_info[overwrite]}%(?:: %F{1}✘ %? %f)\${VIM:+" %B%F{6}V%f%b"}\${_prompt_sorin_git}"\\$
-export RPROMPT='$python_info[virtualenv]${editor_info[overwrite]}%(?:: %F{1}✘ %? %f)${VIM:+" %B%F{6}V%f%b"}${_prompt_sorin_git}'
+#
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
 export GITHUB_USER=prashantv

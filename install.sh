@@ -12,10 +12,12 @@ ln -sf `pwd`/.tmux*.conf ~/
 
 # vim
 ln -sf `pwd`/.vimrc ~/
-cp -R .vim ~/
+cp -R .vim ~/.vim || echo "vim failed, continue"
 
 # zsh
 ln -sf `pwd`/.zshrc ~/
+ln -sf `pwd`/.p10k.zsh ~/
+ln -sf `pwd`/.zpreztorc ~/
 ln -sf `pwd`/.inputrc ~/
 touch ~/.zshrc_local
 [ -d ~/.zprezto ] &&
