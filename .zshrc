@@ -91,6 +91,18 @@ function c() {
   tee >(cat) | read P
 }
 
+function gb() {
+  git branch -l | cut -c3- | fzf
+}
+
+function gch() {
+  git checkout $(gb)
+}
+
+function grb() {
+  git rebase -i $(gb)
+}
+
 # Env-specific settings
 source ~/.zshrc_local
 
