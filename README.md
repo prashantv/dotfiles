@@ -8,5 +8,6 @@ $ cd ~
 $ git clone git@github.com:prashantv/dotfiles
 
 # Install dotfiles
+$ ./dotfiles/bin.sh
 $ ./dotfiles/install.sh
 ```
