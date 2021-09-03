@@ -28,3 +28,6 @@ touch ~/.zshrc_local
 ln -sf `pwd`/.gitconfig ~/
 ln -sf `pwd`/.gitignore_global ~/
 
+# create .tmp
+[ -d ~/tmp ] || mkdir ~/tmp
+
