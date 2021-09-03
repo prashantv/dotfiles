@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Bash "strict" mode
+set -euo pipefail
+IFS=$'\n\t'
+
+tee  ~/tmp/clip
+
