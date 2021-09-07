@@ -85,6 +85,10 @@ export EDITOR=vim
 # Disable brew analytics on OSX
 command -v brew >/dev/null 2>&1 && brew analytics off 2>&1 >/dev/null
 
+# install fzf
+source ~/dotfiles/.extracted/fzf/completion.zsh
+source ~/dotfiles/.extracted/fzf/key-bindings.zsh
+
 # Copy the current output, can be used with $P. Can be added to the end
 # of a pipeline, and it will still echo the original input.
 function c() {
