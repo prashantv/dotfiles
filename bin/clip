@@ -14,18 +14,8 @@ then
   exit 0
 fi
 
-# Check for tmux, which allows us to run the command in a new window.
-if [ -n "${TMUX+x}" ]
-then
-  tmpfile=$(mktemp)
-  printf '\033]52;c;%s\a' "${str}" > $tmpfile
-  tmux new-window "cat $tmpfile"
-  exit 0
-fi
-
-# Otherwise, fail, and report that command requires the terminal
-echo "Copying requires terminal access" >&2
-exit 1
+# Otherwise, print to /dev/tty
+printf '\033]52;c;%s\a' "${str}" > /dev/tty
 
 
 
