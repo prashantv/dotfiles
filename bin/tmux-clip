@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Bash "strict" mode
+set -euo pipefail
+IFS=$'\n\t'
+
+# Copy to both the tmux buffer using loadb, and to the clipboard using clip
+tee >(tmux loadb -) | clip
+
