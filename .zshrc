@@ -83,7 +83,7 @@ export VISUAL=vim
 export EDITOR=vim
 
 # Disable brew analytics on OSX
-command -v brew >/dev/null 2>&1 && brew analytics off 2>&1 >/dev/null
+export HOMEBREW_NO_ANALYTICS=1
 
 # install fzf
 source ~/dotfiles/.extracted/fzf/completion.zsh

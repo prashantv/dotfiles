@@ -35,3 +35,5 @@ ln -sf `pwd`/.gitignore_global ~/
 # create .tmp
 [ -d ~/tmp ] || mkdir ~/tmp
 
+# disable homebrew analytics always
+command -v brew >/dev/null 2>&1 && brew analytics off
