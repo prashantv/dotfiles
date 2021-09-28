@@ -103,10 +103,13 @@ function gch() {
   git checkout $(gb)
 }
 
+function gcb() {
+  git branch --show-current
+}
+
 function grb() {
   git rebase -i $(gb)
 }
 
 # Env-specific settings
 source ~/.zshrc_local
-
