@@ -4,12 +4,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# Copy links to files in bin
-for f in `pwd`/bin/*
-do
-  ln -sf $f ~/bin/
-done
-
 # Download the latest releases and install it to ~/bin
 
 echo "== FZF =="
