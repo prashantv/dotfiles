@@ -19,8 +19,8 @@
   changes  = diff --name-status -r
 
 [user]
-	email = prashant@prashantv.com
-	name = Prashant V
+  email = {{ .git.email }}
+  name = {{ .git.name }}
 [branch]
 	autosetuprebase = always
 [rerere]
