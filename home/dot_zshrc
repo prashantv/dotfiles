@@ -122,6 +122,9 @@ function git-root {
   cd $(git rev-parse --show-toplevel)
 }
 
+# Simplify chezmoi management
+alias cm=chezmoi
+
 
 # Env-specific settings
 source ~/.zshrc_local
