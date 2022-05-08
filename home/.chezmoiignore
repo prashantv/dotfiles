@@ -1,0 +1,5 @@
+xmonad.hs # not actively using, so disable.
+{{ if ne .chezmoi.os "darwin" }}
+no_brew_analytics # only Darwin uses brew
+{{ end }}
+
