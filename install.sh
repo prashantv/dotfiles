@@ -7,5 +7,3 @@ IFS=$'\n\t'
 # Run commands from current directory
 cd "$(dirname "$0")"
 
-touch ~/.zshrc_local
-
