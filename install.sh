@@ -9,5 +9,3 @@ cd "$(dirname "$0")"
 
 touch ~/.zshrc_local
 
-# disable homebrew analytics always
-command -v brew >/dev/null 2>&1 && brew analytics off
