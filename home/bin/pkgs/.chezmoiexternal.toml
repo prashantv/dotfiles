@@ -1,6 +1,11 @@
 {{ $fzfVersion := "0.30.0" }}
+{{ $tmuxFastCopyVersion := "0.8.0" }}
 
 ["fzf"]
   type = "archive"
   url = "https://github.com/junegunn/fzf/releases/download/{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-{{ .chezmoi.os }}_{{ .chezmoi.arch }}.zip"
+
+["tmux-fastcopy"]
+  type = "archive"
+  url = "https://github.com/abhinav/tmux-fastcopy/releases/download/v{{ $tmuxFastCopyVersion }}/tmux-fastcopy_{{ $tmuxFastCopyVersion }}_{{ .chezmoi.os }}_{{ .chezmoi.arch }}.tar.gz"
 
