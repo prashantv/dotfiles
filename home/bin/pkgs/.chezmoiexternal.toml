@@ -1,0 +1,6 @@
+{{ $fzfVersion := "0.30.0" }}
+
+["fzf"]
+  type = "archive"
+  url = "https://github.com/junegunn/fzf/releases/download/{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-{{ .chezmoi.os }}_{{ .chezmoi.arch }}.zip"
+
