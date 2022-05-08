@@ -1,0 +1,9 @@
+["fasd"]
+  type = "file"
+  url = "https://raw.githubusercontent.com/clvv/fasd/master/fasd"
+  executable = true
+
+["gimme"]
+  type = "file"
+  url = "https://raw.githubusercontent.com/travis-ci/gimme/master/gimme"
+  executable = true
