@@ -3,6 +3,8 @@
 
 ["fzf"]
   type = "archive"
+
+  ## fzf uses .zip for Windows/Darwin, and .tar.gz for others.
   {{ $fzfReleaseExt := "tar.gz" }}
   {{ if eq .chezmoi.os "darwin" }}
   {{ $fzfReleaseExt = "zip" }}
