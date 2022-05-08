@@ -24,3 +24,18 @@ $ sh -c "$(curl -fsLS chezmoi.io/get)" -- init --ssh --apply prashantv
 - [GitHub SSH Key Management](https://github.com/settings/keys)
 
 
+## Quick testing on ephemeral Debian instance
+
+```bash
+$ sudo apt update && sudo apt --yes install git-core curl zsh
+$ ssh-keygen
+$ cat ~/.ssh/id_rsa.pub
+
+## Open https://github.com/settings/keys and copy above key
+
+$ sh -c "$(curl -fsLS chezmoi.io/get)" -- init --branch dev --ssh --apply prashantv
+
+$ sudo chsh $(whoami) --shell $(which zsh)
+
+## Restart shell to open up zsh
+```
