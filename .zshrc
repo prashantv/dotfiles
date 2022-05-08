@@ -111,5 +111,17 @@ function grb() {
   git rebase -i $(gb)
 }
 
+function git-delete-current-branch {
+  cur_branch=$(git branch --show-current)
+  git checkout master
+  git branch -D "$cur_branch"
+}
+function git-dcb { git-delete-current-branch }
+
+function git-root {
+  cd $(git rev-parse --show-toplevel)
+}
+
+
 # Env-specific settings
 source ~/.zshrc_local
