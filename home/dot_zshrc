@@ -11,6 +11,9 @@ source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 autoload bashcompinit
 bashcompinit
 
+autoload -Uz compinit
+
+
 # Prompt theming
 autoload -Uz promptinit
 promptinit
