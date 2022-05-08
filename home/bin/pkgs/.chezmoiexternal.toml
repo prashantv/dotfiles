@@ -3,7 +3,11 @@
 
 ["fzf"]
   type = "archive"
-  url = "https://github.com/junegunn/fzf/releases/download/{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-{{ .chezmoi.os }}_{{ .chezmoi.arch }}.zip"
+  {{ $fzfReleaseExt := "tar.gz" }}
+  {{ if eq .chezmoi.os "darwin" }}
+  {{ $fzfReleaseExt = "zip" }}
+  {{ end }}
+  url = "https://github.com/junegunn/fzf/releases/download/{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-{{ .chezmoi.os }}_{{ .chezmoi.arch }}.{{ $fzfReleaseExt }}"
 
 ["tmux-fastcopy"]
   type = "archive"
