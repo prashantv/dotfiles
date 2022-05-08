@@ -7,3 +7,9 @@
   type = "file"
   url = "https://raw.githubusercontent.com/travis-ci/gimme/master/gimme"
   executable = true
+
+["fzf-tmux"]
+  type = "file"
+  url = "https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux"
+  refresh = 0 # only manually
+

@@ -85,9 +85,9 @@ export EDITOR=vim
 # Disable brew analytics on OSX
 export HOMEBREW_NO_ANALYTICS=1
 
-# install fzf
-source ~/dotfiles/.extracted/fzf/completion.zsh
-source ~/dotfiles/.extracted/fzf/key-bindings.zsh
+# source fzf completions & keybindings
+source ~/.zsh_inc/fzf-completion.zsh
+source ~/.zsh_inc/fzf-key-bindings.zsh
 
 # Copy the current output, can be used with $P. Can be added to the end
 # of a pipeline, and it will still echo the original input.
