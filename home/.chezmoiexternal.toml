@@ -1,0 +1,6 @@
+[".zprezto"]
+  type = "git-repo"
+  url = "https://github.com/sorin-ionescu/prezto.git"
+  clone.args = ["--depth=1", "--recurse-submodules"]
+  pull.args = ["--depth=1", "--recurse-submodules"]
+  refreshPeriod = "720h" # every 30 days
