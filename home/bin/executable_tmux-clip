@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+### tmux-clip: Copy to tmux buffer & clipboard using clip.
+# This command allows copying to both the tmux buffer and the
+# system clipboard using OSC 52.
+
 # Bash "strict" mode
 set -euo pipefail
 IFS=$'\n\t'
