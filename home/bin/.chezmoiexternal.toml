@@ -11,5 +11,6 @@
 ["fzf-tmux"]
   type = "file"
   url = "https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux"
+  executable = true
   refresh = 0 # only manually
 
