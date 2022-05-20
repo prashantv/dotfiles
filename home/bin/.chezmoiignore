@@ -3,3 +3,7 @@ age
 age-keygen
 pkgs/age
 {{ end }}
+
+{{ if not .features.yq }}
+yq
+{{ end }}
