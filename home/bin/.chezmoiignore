@@ -1,0 +1,5 @@
+{{ if not .features.age }}
+age
+age-keygen
+pkgs/age
+{{ end }}
