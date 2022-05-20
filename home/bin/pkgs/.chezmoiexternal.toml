@@ -1,3 +1,4 @@
+{{ $ageVersion := "1.0.0" }}
 {{ $fzfVersion := "0.30.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
 
@@ -20,4 +21,8 @@
   {{ $tmuxFastCopyArch = "x86_64" }}
   {{ end }}
   url = "https://github.com/abhinav/tmux-fastcopy/releases/download/v{{ $tmuxFastCopyVersion }}/tmux-fastcopy_{{ $tmuxFastCopyVersion }}_{{ .chezmoi.os }}_{{ $tmuxFastCopyArch }}.tar.gz"
+
+["age"]
+  type = "archive"
+  url = "https://github.com/FiloSottile/age/releases/download/v{{ $ageVersion }}/age-v{{ $ageVersion }}-{{ .chezmoi.os }}-{{ .chezmoi.arch }}.tar.gz"
 
