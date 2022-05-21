@@ -1,10 +1,18 @@
 {{ $ageVersion := "1.0.0" }}
+{{ $batVersion := "0.21.0" }}
 {{ $fzfVersion := "0.30.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
 
 ["age"]
   type = "archive"
   url = "https://github.com/FiloSottile/age/releases/download/v{{ $ageVersion }}/age-v{{ $ageVersion }}-{{ .chezmoi.os }}-{{ .chezmoi.arch }}.tar.gz"
+
+["bat"]
+  type = "archive"
+  {{ $batArch := .chezmoi.arch | replace "amd64" "x86_64" | replace "arm64" "aarch64" }}
+  {{ $batOS := .chezmoi.os | replace "linux" "unknown-linux-gnu" | replace "darwin" "apple-darwin" }}
+  url = "https://github.com/sharkdp/bat/releases/download/v{{ $batVersion }}/bat-v{{ $batVersion }}-{{ $batArch }}-{{ $batOS }}.tar.gz"
+  stripComponents = 1
 
 ["fzf"]
   type = "archive"

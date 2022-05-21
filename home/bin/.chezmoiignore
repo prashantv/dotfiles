@@ -4,6 +4,11 @@ age-keygen
 pkgs/age
 {{ end }}
 
+{{ if not (get .features "bat") }}
+bat
+pkgs/bat
+{{ end }}
+
 {{ if not (get .features "yq") }}
 yq
 {{ end }}
