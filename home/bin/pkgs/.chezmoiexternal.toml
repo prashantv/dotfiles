@@ -20,8 +20,5 @@
   type = "archive"
 
   ## tmux-fastcopy uses x86_64 instead of amd64
-  {{ $tmuxFastCopyArch := .chezmoi.arch }}
-  {{ if eq $tmuxFastCopyArch "amd64" }}
-  {{ $tmuxFastCopyArch = "x86_64" }}
-  {{ end }}
+  {{ $tmuxFastCopyArch := .chezmoi.arch | replace "amd64" "x86_64" }}
   url = "https://github.com/abhinav/tmux-fastcopy/releases/download/v{{ $tmuxFastCopyVersion }}/tmux-fastcopy_{{ $tmuxFastCopyVersion }}_{{ .chezmoi.os }}_{{ $tmuxFastCopyArch }}.tar.gz"
