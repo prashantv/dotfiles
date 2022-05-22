@@ -11,6 +11,10 @@
   type = "archive"
   {{ $batArch := .chezmoi.arch | replace "amd64" "x86_64" | replace "arm64" "aarch64" }}
   {{ $batOS := .chezmoi.os | replace "linux" "unknown-linux-gnu" | replace "darwin" "apple-darwin" }}
+  {{/* bat is not available for darwin/arm64: https://github.com/sharkdp/bat/issues/1551 */}}
+  {{ if all (eq $batOS "apple-darwin") (eq $batArch "aarch64") }}
+  {{ $batArch = "x86_64" }}
+  {{ end }}
   url = "https://github.com/sharkdp/bat/releases/download/v{{ $batVersion }}/bat-v{{ $batVersion }}-{{ $batArch }}-{{ $batOS }}.tar.gz"
   stripComponents = 1
 
