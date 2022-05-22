@@ -1,9 +1,15 @@
+{{/* defaultDict is not empty so "with" isn't skipped */}}
+{{- $defaultDict := dict "_" "_" -}}
+
 ["data.git"]
-  name = "Prashant V"
-  email = "prashant@prashantv.com"
+  {{- with (. | dig "git" $defaultDict) }}
+  name = {{ . | dig "name" "Prashant V" | quote }}
+  email = {{ . | dig "email" "prashant@prashantv.com" | quote }}
+  {{- end }}
 
 ["data.features"]
-  age = false
-  bat = false
-  yq = false
-
+  {{- with (. | dig "features" $defaultDict) }}
+  age = {{ . | dig "age" false }}
+  bat = {{ . | dig "bat" false }}
+  yq = {{ . | dig "yq" false }}
+  {{- end }}
