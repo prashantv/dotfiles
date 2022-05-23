@@ -1,5 +1,6 @@
 {{ $ageVersion := "1.0.0" }}
 {{ $batVersion := "0.21.0" }}
+{{ $deltaVersion := "0.13.0" }}
 {{ $fdVersion := "8.3.2" }}
 {{ $fzfVersion := "0.30.0" }}
 {{ $ripgrepVersion := "13.0.0" }}
@@ -19,6 +20,17 @@
   {{ $batArch = "x86_64" }}
   {{ end }}
   url = "https://github.com/sharkdp/bat/releases/download/v{{ $batVersion }}/bat-v{{ $batVersion }}-{{ $batArch }}-{{ $batOS }}.tar.gz"
+  stripComponents = 1
+
+["delta"]
+  type = "archive"
+  {{ $deltaArch := .chezmoi.arch | replace "amd64" "x86_64" | replace "arm64" "aarch64" }}
+  {{ $deltaOS := .chezmoi.os | replace "linux" "unknown-linux-gnu" | replace "darwin" "apple-darwin" }}
+  {{/* delta is not available for darwin/arm64, even though this issue is closed: https://github.com/dandavison/delta/issues/484 */}}
+  {{ if all (eq $deltaOS "apple-darwin") (eq $deltaArch "aarch64") }}
+  {{ $deltaArch = "x86_64" }}
+  {{ end }}
+  url = "https://github.com/dandavison/delta/releases/download/{{ $deltaVersion }}/delta-{{ $deltaVersion }}-{{ $deltaArch }}-{{ $deltaOS }}.tar.gz"
   stripComponents = 1
 
 ["fd"]

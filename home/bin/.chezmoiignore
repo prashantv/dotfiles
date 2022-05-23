@@ -9,6 +9,11 @@ bat
 pkgs/bat
 {{ end }}
 
+{{ if not (get .features "delta") }}
+delta
+pkgs/delta
+{{ end }}
+
 {{ if not (get .features "fd") }}
 fd
 pkgs/fd
