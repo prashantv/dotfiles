@@ -1,11 +1,13 @@
 {{ $ageVersion := "1.0.0" }}
 {{ $batVersion := "0.21.0" }}
+{{ $fdVersion := "8.3.2" }}
 {{ $fzfVersion := "0.30.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
 
 ["age"]
   type = "archive"
   url = "https://github.com/FiloSottile/age/releases/download/v{{ $ageVersion }}/age-v{{ $ageVersion }}-{{ .chezmoi.os }}-{{ .chezmoi.arch }}.tar.gz"
+
 
 ["bat"]
   type = "archive"
@@ -16,6 +18,17 @@
   {{ $batArch = "x86_64" }}
   {{ end }}
   url = "https://github.com/sharkdp/bat/releases/download/v{{ $batVersion }}/bat-v{{ $batVersion }}-{{ $batArch }}-{{ $batOS }}.tar.gz"
+  stripComponents = 1
+
+["fd"]
+  type = "archive"
+  {{ $fdArch := .chezmoi.arch | replace "amd64" "x86_64" | replace "arm64" "aarch64" }}
+  {{ $fdOS := .chezmoi.os | replace "linux" "unknown-linux-gnu" | replace "darwin" "apple-darwin" }}
+  {{/* fd is not available for darwin/arm64: https://github.com/sharkdp/fd/pull/738 */}}
+  {{ if all (eq $fdOS "apple-darwin") (eq $fdArch "aarch64") }}
+  {{ $fdArch = "x86_64" }}
+  {{ end }}
+  url = "https://github.com/sharkdp/fd/releases/download/v{{ $fdVersion }}/fd-v{{ $fdVersion }}-{{ $fdArch }}-{{ $fdOS }}.tar.gz"
   stripComponents = 1
 
 ["fzf"]

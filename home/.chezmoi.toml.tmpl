@@ -11,5 +11,6 @@
   {{- with (. | dig "features" $defaultDict) }}
   age = {{ . | dig "age" false }}
   bat = {{ . | dig "bat" false }}
+  fd = {{ . | dig "fd" false }}
   yq = {{ . | dig "yq" false }}
   {{- end }}
