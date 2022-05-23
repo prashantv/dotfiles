@@ -50,6 +50,7 @@
 	followRedirects = true
 
 [core]
-	excludesfile = /Users/prashant/.gitignore_global
+	excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
+
 [pull]
 	ff = only
