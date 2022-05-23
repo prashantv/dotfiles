@@ -2,6 +2,7 @@
 {{ $batVersion := "0.21.0" }}
 {{ $fdVersion := "8.3.2" }}
 {{ $fzfVersion := "0.30.0" }}
+{{ $ripgrepVersion := "13.0.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
 
 ["age"]
@@ -40,6 +41,17 @@
   {{ $fzfReleaseExt = "zip" }}
   {{ end }}
   url = "https://github.com/junegunn/fzf/releases/download/{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-{{ .chezmoi.os }}_{{ .chezmoi.arch }}.{{ $fzfReleaseExt }}"
+
+["ripgrep"]
+  type = "archive"
+  {{ $ripgrepArch := .chezmoi.arch | replace "amd64" "x86_64" | replace "arm64" "aarch64" }}
+  {{ $ripgrepOS := .chezmoi.os | replace "linux" "unknown-linux-musl" | replace "darwin" "apple-darwin" }}
+  {{/* ripgrep is not available for darwin/arm64: https://github.com/BurntSushi/ripgrep/pull/2099 */}}
+  {{ if all (eq $ripgrepOS "apple-darwin") (eq $ripgrepArch "aarch64") }}
+  {{ $ripgrepArch = "x86_64" }}
+  {{ end }}
+  url = "https://github.com/BurntSushi/ripgrep/releases/download/{{ $ripgrepVersion }}/ripgrep-{{ $ripgrepVersion }}-{{ $ripgrepArch }}-{{ $ripgrepOS }}.tar.gz"
+  stripComponents = 1
 
 ["tmux-fastcopy"]
   type = "archive"

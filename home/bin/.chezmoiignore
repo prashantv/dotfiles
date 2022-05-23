@@ -14,6 +14,10 @@ fd
 pkgs/fd
 {{ end }}
 
+{{ if not (get .features "rg") }}
+rg
+pkgs/ripgrep
+{{ end }}
 
 {{ if not (get .features "yq") }}
 yq
