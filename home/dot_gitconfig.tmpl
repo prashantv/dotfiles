@@ -51,6 +51,25 @@
 
 [core]
 	excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
+	{{- if .features.delta }}
+	pager = delta
+	{{- end }}
+
+{{ if .features.delta -}}
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true  # use n and N to move between diff sections
+	line-numbers = true
+	side-by-side = true
+
+[merge]
+	conflictstyle = diff3
+
+[diff]
+	colorMoved = default
+{{- end }}
 
 [pull]
 	ff = only
