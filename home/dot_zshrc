@@ -98,6 +98,15 @@ function c() {
   tee >(cat) | read P
 }
 
+function cdd() {
+  if [[ -d "$1" ]]; then
+    cd "$1"
+  else
+    echo "$1 is a file, cd to dir instead" >&2
+    cd $(dirname "$1")
+  fi
+}
+
 function gb() {
   git branch -l | cut -c3- | fzf
 }
