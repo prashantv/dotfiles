@@ -3,6 +3,7 @@
 {{ $deltaVersion := "0.13.0" }}
 {{ $fdVersion := "8.3.2" }}
 {{ $fzfVersion := "0.30.0" }}
+{{ $nvimVersion := "0.7.0" }}
 {{ $ripgrepVersion := "13.0.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
 
@@ -46,13 +47,22 @@
 
 ["fzf"]
   type = "archive"
-
   ## fzf uses .zip for Windows/Darwin, and .tar.gz for others.
   {{ $fzfReleaseExt := "tar.gz" }}
   {{ if eq .chezmoi.os "darwin" }}
   {{ $fzfReleaseExt = "zip" }}
   {{ end }}
   url = "https://github.com/junegunn/fzf/releases/download/{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-{{ .chezmoi.os }}_{{ .chezmoi.arch }}.{{ $fzfReleaseExt }}"
+
+["nvim"]
+  type = "archive"
+  {{ $nvimSuffix := printf "%v%v.tar.gz" .chezmoi.os .chezmoi.arch }}
+  {{ $nvimSuffix = $nvimSuffix | replace "amd64" "64" }}
+  {{ if eq .chezmoi.os "darwin" }}
+  {{ $nvimSuffix = "macos.tar.gz" }}
+  {{ end }}
+  url = "https://github.com/neovim/neovim/releases/download/v{{ $nvimVersion }}/nvim-{{ $nvimSuffix }}"
+  stripComponents = 1
 
 ["ripgrep"]
   type = "archive"
