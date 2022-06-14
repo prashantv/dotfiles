@@ -29,6 +29,10 @@ rg
 pkgs/ripgrep
 {{ end }}
 
+{{ if not (get .features "sops") }}
+sops
+{{ end }}
+
 {{ if not (get .features "yq") }}
 yq
 {{ end }}
