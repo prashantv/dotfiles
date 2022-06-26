@@ -8,6 +8,9 @@
   {{- end }}
 
 ["data.features"]
+  profile = "{{ . | dig "featuress" $defaultDict | dig "profile" .chezmoi.hostname }}"
+
+  # tools
   {{- with (. | dig "features" $defaultDict) }}
   age = {{ . | dig "age" false }}
   bat = {{ . | dig "bat" false }}
