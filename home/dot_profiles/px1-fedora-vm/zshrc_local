@@ -1,0 +1,8 @@
+# Per-environment configuration goes here.
+
+
+# go 1.18.3 from gimme
+export GOROOT='/home/prashant/.gimme/versions/go1.18.3.linux.amd64';
+export PATH="/home/prashant/.gimme/versions/go1.18.3.linux.amd64/bin:${PATH}";
+export GIMME_ENV='/home/prashant/.gimme/envs/go1.18.3.linux.amd64.env';
+
