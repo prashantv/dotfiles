@@ -3,6 +3,7 @@
 {{ $deltaVersion := "0.13.0" }}
 {{ $fdVersion := "8.3.2" }}
 {{ $fzfVersion := "0.30.0" }}
+{{ $gojqVersion := "0.12.8" }}
 {{ $nvimVersion := "0.7.0" }}
 {{ $ripgrepVersion := "13.0.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
@@ -53,6 +54,16 @@
   {{ $fzfReleaseExt = "zip" }}
   {{ end }}
   url = "https://github.com/junegunn/fzf/releases/download/{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-{{ .chezmoi.os }}_{{ .chezmoi.arch }}.{{ $fzfReleaseExt }}"
+
+["gojq"]
+  type = "archive"
+  ## gojq uses .tar.gz for Linux, and .zip for others.
+  {{ $gojqReleaseExt := "zip" }}
+  {{ if eq .chezmoi.os "linux" }}
+  {{ $gojqReleaseExt = ".tar.gz" }}
+  {{ end }}
+  url = "https://github.com/itchyny/gojq/releases/download/v{{ $gojqVersion }}/gojq_v{{ $gojqVersion }}_{{ .chezmoi.os}}_{{ .chezmoi.arch }}.{{ $gojqReleaseExt}}"
+  stripComponents = 1
 
 ["nvim"]
   type = "archive"

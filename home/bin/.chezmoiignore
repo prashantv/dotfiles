@@ -19,6 +19,11 @@ fd
 pkgs/fd
 {{ end }}
 
+{{ if not (get .features "gojq") }}
+gojq
+pkgs/gojq
+{{ end }}
+
 {{ if not (get .features "nvim") }}
 nvim
 pkgs/nvim
