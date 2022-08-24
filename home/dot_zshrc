@@ -111,6 +111,10 @@ function gb() {
   git branch -l | cut -c3- | fzf
 }
 
+function gbc() {
+  gb | read C
+}
+
 function gch() {
   git checkout $(gb)
 }
