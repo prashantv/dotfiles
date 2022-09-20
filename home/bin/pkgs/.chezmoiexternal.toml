@@ -4,6 +4,7 @@
 {{ $fdVersion := "8.3.2" }}
 {{ $fzfVersion := "0.30.0" }}
 {{ $gojqVersion := "0.12.8" }}
+{{ $jqpVersion := "0.1.0" }}
 {{ $nvimVersion := "0.7.0" }}
 {{ $ripgrepVersion := "13.0.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
@@ -64,6 +65,12 @@
   {{ end }}
   url = "https://github.com/itchyny/gojq/releases/download/v{{ $gojqVersion }}/gojq_v{{ $gojqVersion }}_{{ .chezmoi.os}}_{{ .chezmoi.arch }}.{{ $gojqReleaseExt}}"
   stripComponents = 1
+
+["jqp"]
+  type = "archive"
+  {{ $jqpArch := .chezmoi.arch | replace "amd64" "x86_64" }}
+  {{ $jqpOs := .chezmoi.os | title }}
+  url = "https://github.com/noahgorstein/jqp/releases/download/v{{ $jqpVersion }}/jqp_{{ $jqpVersion }}_{{ $jqpOs }}_{{ $jqpArch }}.tar.gz"
 
 ["nvim"]
   type = "archive"
