@@ -61,7 +61,7 @@
   ## gojq uses .tar.gz for Linux, and .zip for others.
   {{ $gojqReleaseExt := "zip" }}
   {{ if eq .chezmoi.os "linux" }}
-  {{ $gojqReleaseExt = ".tar.gz" }}
+  {{ $gojqReleaseExt = "tar.gz" }}
   {{ end }}
   url = "https://github.com/itchyny/gojq/releases/download/v{{ $gojqVersion }}/gojq_v{{ $gojqVersion }}_{{ .chezmoi.os}}_{{ .chezmoi.arch }}.{{ $gojqReleaseExt}}"
   stripComponents = 1
