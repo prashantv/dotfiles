@@ -8,7 +8,7 @@
   {{- end }}
 
 ["data.features"]
-  profile = "{{ . | dig "featuress" $defaultDict | dig "profile" .chezmoi.hostname }}"
+  profile = "{{ . | dig "features" $defaultDict | dig "profile" .chezmoi.hostname }}"
 
   # tools
   {{- with (. | dig "features" $defaultDict) }}
