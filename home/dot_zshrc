@@ -138,6 +138,11 @@ function git-root {
   cd $(git rev-parse --show-toplevel)
 }
 
+# use jq to prettify json
+function json-fmt {
+  cat $1 | jq -r . | sponge $1
+}
+
 # Simplify chezmoi management
 alias cm=chezmoi
 
