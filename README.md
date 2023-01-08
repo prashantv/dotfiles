@@ -14,6 +14,10 @@ For a git clone that can be used for pushes:
 $ sh -c "$(curl -fsLS chezmoi.io/get)" -- init --ssh --apply prashantv
 ```
 
+This requires an SSH key to be setup, and added to GitHub,
+ * `ssh-keygen`, then get the key, `cat ~/.ssh/id_rsa.pub` 
+ * Add to [GitHub](https://github.com/settings/ssh/new).
+
 ## Dependencies
 
 * curl (for any install)
