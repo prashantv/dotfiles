@@ -134,6 +134,13 @@ function git-delete-current-branch {
 }
 function git-dcb { git-delete-current-branch }
 
+function git-delete-merged-branches {
+  git remote prune origin --dry-run |
+    sed 's/.*origin\///g' |
+    grep "^prashant" |
+    xargs git branch -D
+}
+
 function git-root {
   cd $(git rev-parse --show-toplevel)
 }
