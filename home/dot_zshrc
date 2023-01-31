@@ -127,6 +127,12 @@ function grb() {
   git rebase -i $(gb)
 }
 
+function git-push-set-origin {
+  echo "$ git push -u origin $(gcb)"
+  git push -u origin $(gcb)
+}
+function git-pso { git-push-set-origin }
+
 function git-delete-current-branch {
   cur_branch=$(git branch --show-current)
   git checkout master
@@ -135,10 +141,13 @@ function git-delete-current-branch {
 function git-dcb { git-delete-current-branch }
 
 function git-delete-merged-branches {
-  git remote prune origin --dry-run |
+  for b in $(git remote prune origin --dry-run |
     sed 's/.*origin\///g' |
-    grep "^prashant" |
-    xargs git branch -D
+    grep "^prashant")
+    do
+      git branch -D $b
+      git branch -r --delete origin/$b
+    done
 }
 
 function git-root {
