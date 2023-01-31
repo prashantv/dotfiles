@@ -24,6 +24,11 @@ gojq
 pkgs/gojq
 {{ end }}
 
+{{ if not (get .features "gron") }}
+gron
+pkgs/gron
+{{ end }}
+
 {{ if not (get .features "jqp") }}
 jqp
 pkgs/jqp
