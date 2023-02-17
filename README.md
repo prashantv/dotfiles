@@ -43,3 +43,8 @@ $ sudo chsh $(whoami) --shell $(which zsh)
 
 ## Restart shell to open up zsh
 ```
+
+## Download GitHub SSH keys to authorized keys
+```
+$ mkdir -p ~/.ssh && curl https://github.com/prashantv.keys | tee -a ~/.ssh/authorized_keys
+```
