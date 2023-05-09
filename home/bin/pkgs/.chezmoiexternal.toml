@@ -6,7 +6,7 @@
 {{ $gojqVersion := "0.12.8" }}
 {{ $gronVersion := "0.7.1" }}
 {{ $jqpVersion := "0.1.0" }}
-{{ $nvimVersion := "0.7.0" }}
+{{ $nvimVersion := "0.9.0" }}
 {{ $ripgrepVersion := "13.0.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
 
