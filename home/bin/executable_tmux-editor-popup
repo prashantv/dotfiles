@@ -1,0 +1,27 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+SNIPPETS_DIR=~/snippets/shell
+
+# Use a file based on the current command, so we get "command history".
+cmd="$(tmux display -p '#{pane_current_command}')"
+T="$SNIPPETS_DIR/.last/$cmd"
+
+mkdir -p $(dirname "$T")
+
+# We only want to input if the file has changed, so get the mtime to detect changes.
+premtime=$(stat $T || echo "missing")
+
+# show a popup with the user's preferred editor.
+tmux display-popup -d "$SNIPPETS_DIR" -E $EDITOR "$T"
+
+# Only send-keys if the mtime has changed.
+postmtime=$(stat $T || echo "missing")
+if [ "$premtime" != "$postmtime" ]
+then
+	# "-l" avoids key lookups (e.g., Enter --> "\n") and uses the literal values.
+  # The command ends with a ";", so escape them.
+	tmux send-keys -l "$(cat "$T" | sed 's/;/\\;/g')"
+fi
+
