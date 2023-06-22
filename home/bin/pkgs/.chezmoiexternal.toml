@@ -5,6 +5,7 @@
 {{ $fzfVersion := "0.40.0" }}
 {{ $gojqVersion := "0.12.8" }}
 {{ $gronVersion := "0.7.1" }}
+{{ $hxVersion := "23.05" }}
 {{ $jqpVersion := "0.1.0" }}
 {{ $nvimVersion := "0.9.0" }}
 {{ $ripgrepVersion := "13.0.0" }}
@@ -70,6 +71,12 @@
 ["gron"]
   type = "archive"
   url = "https://github.com/tomnomnom/gron/releases/download/v{{ $gronVersion }}/gron-{{ .chezmoi.os }}-{{ .chezmoi.arch }}-{{ $gronVersion }}.tgz"
+
+["hx"]
+  type = "archive"
+  {{ $hxArch := .chezmoi.arch | replace "amd64" "x86_64" | replace "arm64" "aarch64" }}
+  url = "https://github.com/helix-editor/helix/releases/download/{{ $hxVersion }}/helix-{{ $hxVersion }}-{{ $hxArch }}-{{ .chezmoi.os}}.tar.xz"
+  stripComponents = 1
 
 ["jqp"]
   type = "archive"

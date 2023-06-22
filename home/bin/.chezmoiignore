@@ -29,6 +29,11 @@ gron
 pkgs/gron
 {{ end }}
 
+{{ if not (get .features "hx") }}
+hx
+pkgs/hx
+{{ end }}
+
 {{ if not (get .features "jqp") }}
 jqp
 pkgs/jqp
