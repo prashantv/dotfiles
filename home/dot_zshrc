@@ -127,6 +127,29 @@ function grb() {
   git rebase -i $(gb)
 }
 
+function grbm() {
+  git rebase -i "$(git-main)"
+}
+
+# return the root branch (e.g., main, master)
+function git-main {
+  local main_branches=("master" "main")
+
+  for branch_name in "${main_branches[@]}"; do
+    if git-exists "$branch_name"; then
+      echo "$branch_name"
+      return
+    fi
+  done
+
+  echo NO-MAIN-BRANCH-FOUND
+}
+
+function git-exists() {
+  local branch_name="$1"
+  git rev-parse --quiet --verify "$branch_name" > /dev/null
+}
+
 function git-push-set-origin {
   echo "$ git push -u origin $(gcb)"
   git push -u origin $(gcb)
