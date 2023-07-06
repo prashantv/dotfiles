@@ -108,7 +108,7 @@ function cdd() {
 }
 
 function gb() {
-  git branch -l | cut -c3- | fzf
+  git branch -l | cut -c3- | grep "$1" | fzf
 }
 
 function gbc() {
@@ -116,7 +116,7 @@ function gbc() {
 }
 
 function gch() {
-  git checkout $(gb)
+  git checkout $(gb $1)
 }
 
 function gcb() {
