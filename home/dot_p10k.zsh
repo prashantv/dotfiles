@@ -1490,6 +1490,10 @@
     p10k segment -f 2 -t "$HOST"
   }
 
+  # Use a non-breaking space which we can search for to find the previous command
+  # execution.
+  typeset -g POWERLEVEL9K_LEFT_SEGMENT_END_SEPARATOR=$'\u00a0'
+
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job
   # is to generate the prompt segment for display in instant prompt. See
   # https://github.com/romkatv/powerlevel10k/blob/master/README.md#instant-prompt.
