@@ -1490,6 +1490,15 @@
     p10k segment -f 2 -t "$HOST"
   }
 
+  function p10k-on-post-prompt() {
+    p10k display '1/left/*'=hide
+    p10k display '1/right/*'=hide
+  }
+  function p10k-on-pre-prompt() {
+    p10k display '1/left/*'=show
+    p10k display '2/left/*'=show
+  }
+
   # Use a non-breaking space which we can search for to find the previous command
   # execution.
   typeset -g POWERLEVEL9K_LEFT_SEGMENT_END_SEPARATOR=$'\u00a0'
@@ -1524,7 +1533,7 @@
   #   - always:   Trim down prompt when accepting a command line.
   #   - same-dir: Trim down prompt when accepting a command line unless this is the first command
   #               typed after changing current working directory.
-  typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=always
+  typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=off # custom transient in pre/post-prompt funcs.
 
   # Instant prompt mode.
   #
