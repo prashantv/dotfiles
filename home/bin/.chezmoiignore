@@ -19,6 +19,10 @@ fd
 pkgs/fd
 {{ end }}
 
+{{ if not (get .features "fx") }}
+fx
+{{ end }}
+
 {{ if not (get .features "gojq") }}
 gojq
 pkgs/gojq
