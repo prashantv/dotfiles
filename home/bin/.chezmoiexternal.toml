@@ -1,6 +1,12 @@
+{{ $direnvVersion := "2.32.3" }}
 {{ $fxVersion := "30.0.3" }}
 {{ $sopsVersion := "3.7.3" }}
 {{ $yqVersion := "4.25.1" }}
+
+["direnv"]
+  type = "file"
+  url = "https://github.com/direnv/direnv/releases/download/v{{ $direnvVersion }}/direnv.{{ .chezmoi.os }}-{{ .chezmoi.arch }}"
+  executable = true
 
 ["fasd"]
   type = "file"
