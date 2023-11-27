@@ -195,8 +195,8 @@
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=1
 
   # Default prompt symbol, integrate OSC codes for prompt start/end.
-  prompt_start=$'%{\ePtmux;\e\e]133;A\a\e\\%}%{\e]133;A\a%}'
-  prompt_end=$'%{\ePtmux;\e\e]133;B\a\e\\%}%{\e]133;B\a%}'
+  prompt_start=$'%{\e]133;A\a%}'
+  prompt_end=$'%{\e]133;B\a%}'
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION=$prompt_start'$'$prompt_end
 
   # Prompt symbol in command vi mode.
