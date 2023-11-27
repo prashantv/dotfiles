@@ -67,6 +67,9 @@ __git_files () {
     _wanted files expl 'local files' _files
 }
 
+# when PATH is large (esp WSL), pathdirs makes auto-complete hang.
+unsetopt pathdirs
+
 # Prashant's custom settings
 export PATH="$HOME/bin:$PATH"
 
