@@ -59,6 +59,14 @@ refresh_tmux_env() {
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 
+# speed up zsh+git autocomplete
+# __git_heads_remote in zprof so disable remotes in auto-complete, from https://stackoverflow.com/questions/12175277/disable-auto-completion-of-remote-branches-in-zsh
+zstyle :completion::complete:git-checkout:argument-rest:headrefs command "git for-each-ref --format='%(refname)' refs/heads 2>/dev/null"
+# __git_files in zprof to use local files, from https://itecnote.com/tecnote/bash-zsh-auto-completion-for-git-takes-significant-amount-of-time-can-i-turn-it-off-or-optimize-it/
+__git_files () {
+    _wanted files expl 'local files' _files
+}
+
 # Prashant's custom settings
 export PATH="$HOME/bin:$PATH"
 
@@ -192,6 +200,6 @@ fi
 # Simplify chezmoi management
 alias cm=chezmoi
 
-
 # Env-specific settings
 source ~/.zshrc_local
+
