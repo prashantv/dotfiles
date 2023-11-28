@@ -1,9 +1,10 @@
 # google-cloud-sdk in path
 export PATH="$PATH:/home/prashant/sdk/google-cloud-sdk/bin"
 
-# go 1.18.x
-export PATH="$PATH:/home/prashant/.gimme/versions/go1.18.3.linux.amd64/bin"
-
 # Fly.io
 export FLYCTL_INSTALL="/home/prashant/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
+
+# Go 1.21.x
+export GOROOT='/home/prashant/.gimme/versions/go1.21.4.linux.amd64';
+export PATH="${PATH}:${GOROOT}/bin";
