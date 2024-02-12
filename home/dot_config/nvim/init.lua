@@ -41,6 +41,17 @@ local setupGopls = function()
 	})
 end
 
+local setupZig = function()
+	lspconfig = require "lspconfig"
+	util = require "lspconfig/util"
+	lspconfig.zls.setup {
+		cmd = {"/home/prashant/zig/zls/zig-out/bin/zls"};
+		filetypes = {"zig"};
+		root_dir = util.root_pattern("build.zig", ".git");
+	}
+end
+
+
 --- Indentation options
 local setIndentation = function()
 	-- Indent automatically on {}
@@ -57,6 +68,7 @@ initLazyVim()
 require("lazy").setup("plugins")
 
 setupGopls()
+setupZig()
 
 setIndentation()
 vim.opt.number = true
