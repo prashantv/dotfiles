@@ -73,6 +73,11 @@ unsetopt pathdirs
 # Prashant's custom settings
 export PATH="$HOME/bin:$PATH"
 
+# Use mise + shims
+eval "$(mise activate --shims)"
+eval "$(mise activate)"
+
+
 # Aliases
 
 # fast with autojump aliases
