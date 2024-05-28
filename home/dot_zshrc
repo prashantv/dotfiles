@@ -100,8 +100,7 @@ export EDITOR=vim
 export HOMEBREW_NO_ANALYTICS=1
 
 # source fzf completions & keybindings
-source ~/.zsh_inc/fzf-completion.zsh
-source ~/.zsh_inc/fzf-key-bindings.zsh
+source <($HOME/bin/fzf --zsh)
 
 # Copy the current output, can be used with $P. Can be added to the end
 # of a pipeline, and it will still echo the original input.

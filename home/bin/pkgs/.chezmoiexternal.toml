@@ -2,7 +2,7 @@
 {{ $batVersion := "0.21.0" }}
 {{ $deltaVersion := "0.13.0" }}
 {{ $fdVersion := "8.3.2" }}
-{{ $fzfVersion := "0.40.0" }}
+{{ $fzfVersion := "0.52.1" }}
 {{ $gojqVersion := "0.12.8" }}
 {{ $gronVersion := "0.7.1" }}
 {{ $hxVersion := "23.05" }}
