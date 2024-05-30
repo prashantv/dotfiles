@@ -23,6 +23,22 @@ setopt prompt_subst
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# configure fzf-tab completion
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls $realpath'
+# preview files using bat when completing vim
+zstyle ':fzf-tab:complete:vim:*' fzf-preview 'cat $realpath'
+
 
 export GITHUB_USER=prashantv
 #
