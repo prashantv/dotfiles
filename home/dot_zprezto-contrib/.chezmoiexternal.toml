@@ -1,0 +1,6 @@
+["fzf-tab"]
+  type = "git-repo"
+  url = "https://github.com/Aloxaf/fzf-tab"
+  clone.args = ["--depth=100"]
+  refreshPeriod = "720h" # every 30 days
+
