@@ -5,7 +5,5 @@
 # something about the windows PATH
 unsetopt pathdirs
 
-# use go1.20.x
-export GOROOT='/home/prashant/.gimme/versions/go1.20.5.linux.amd64';
-export PATH="/home/prashant/.gimme/versions/go1.20.5.linux.amd64/bin:${PATH}";
-
+# use mise shims for dev tools
+export PATH="$HOME/.local/share/mise/shims:$PATH"
