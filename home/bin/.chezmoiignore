@@ -27,6 +27,11 @@ pkgs/fd
 fx
 {{ end }}
 
+{{ if not (get .features "gitspice") }}
+gs
+pkgs/git-spice
+{{ end }}
+
 {{ if not (get .features "gojq") }}
 gojq
 pkgs/gojq

@@ -3,6 +3,7 @@
 {{ $deltaVersion := "0.13.0" }}
 {{ $fdVersion := "8.3.2" }}
 {{ $fzfVersion := "0.52.1" }}
+{{ $gitSpiceVersion := "0.5.0" }}
 {{ $gojqVersion := "0.12.8" }}
 {{ $gronVersion := "0.7.1" }}
 {{ $hxVersion := "23.05" }}
@@ -57,6 +58,13 @@
   {{ $fzfReleaseExt = "zip" }}
   {{ end }}
   url = "https://github.com/junegunn/fzf/releases/download/{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-{{ .chezmoi.os }}_{{ .chezmoi.arch }}.{{ $fzfReleaseExt }}"
+
+["git-spice"]
+  type = "archive"
+  {{ $gitSpiceArch := .chezmoi.arch | replace "amd64" "x86_64" }}
+  {{ $gitSpiceOs := .chezmoi.os | title }}
+  url = "https://github.com/abhinav/git-spice/releases/download/v{{ $gitSpiceVersion }}/git-spice.{{ $gitSpiceOs }}-{{ $gitSpiceArch }}.tar.gz"
+
 
 ["gojq"]
   type = "archive"
