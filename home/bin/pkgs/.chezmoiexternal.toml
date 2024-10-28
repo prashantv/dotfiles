@@ -8,7 +8,7 @@
 {{ $gronVersion := "0.7.1" }}
 {{ $hxVersion := "23.05" }}
 {{ $jqpVersion := "0.1.0" }}
-{{ $nvimVersion := "0.9.0" }}
+{{ $nvimVersion := "0.10.0" }}
 {{ $ripgrepVersion := "13.0.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
 
