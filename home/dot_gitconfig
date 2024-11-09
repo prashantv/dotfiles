@@ -71,7 +71,7 @@
   # pager may be set to delta in gitconfig_gen
 
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 
 [diff]
 	colorMoved = default
