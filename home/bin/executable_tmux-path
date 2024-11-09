@@ -16,13 +16,16 @@ tmux capture-pane -J -p \
     read -r key
     case "$key" in
       ctrl-y)
-        clip-os
+        # copy into OS clipboard + tmux buffer
+        tmux load-buffer -w -
         ;;
       ctrl-o)
+        # open using the OS
         read -r arg
         open-os "$arg"
         ;;
       enter)
+        # load selected item into tmux buffer for easy re-use and write it out.
         tmux load-buffer -
         tmux paste-buffer -s ' '
         ;;
