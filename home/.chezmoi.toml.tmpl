@@ -1,12 +1,6 @@
 {{/* defaultDict is not empty so "with" isn't skipped */}}
 {{- $defaultDict := dict "_" "_" -}}
 
-[data.git]
-  {{- with (. | dig "git" $defaultDict) }}
-  name = {{ . | dig "name" "Prashant V" | quote }}
-  email = {{ . | dig "email" "prashant@prashantv.com" | quote }}
-  {{- end }}
-
 [data.features]
   profile = "{{ . | dig "features" $defaultDict | dig "profile" .chezmoi.hostname }}"
 
