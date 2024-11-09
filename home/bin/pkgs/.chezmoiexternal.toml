@@ -8,7 +8,7 @@
 {{ $gronVersion := "0.7.1" }}
 {{ $hxVersion := "23.05" }}
 {{ $jqpVersion := "0.1.0" }}
-{{ $nvimVersion := "0.10.0" }}
+{{ $nvimVersion := "0.10.2" }}
 {{ $ripgrepVersion := "13.0.0" }}
 {{ $tmuxFastCopyVersion := "0.8.0" }}
 
@@ -94,11 +94,9 @@
 
 ["nvim"]
   type = "archive"
-  {{ $nvimSuffix := printf "%v%v.tar.gz" .chezmoi.os .chezmoi.arch }}
-  {{ $nvimSuffix = $nvimSuffix | replace "amd64" "64" }}
-  {{ if eq .chezmoi.os "darwin" }}
-  {{ $nvimSuffix = "macos.tar.gz" }}
-  {{ end }}
+  {{ $nvimSuffix := printf "%v-%v.tar.gz" .chezmoi.os .chezmoi.arch }}
+  {{ $nvimSuffix = $nvimSuffix | replace "linux-amd64" "linux64" }}
+  {{ $nvimSuffix = $nvimSuffix | replace "darwin" "macos" }}
   url = "https://github.com/neovim/neovim/releases/download/v{{ $nvimVersion }}/nvim-{{ $nvimSuffix }}"
   stripComponents = 1
 
