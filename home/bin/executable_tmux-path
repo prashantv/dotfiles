@@ -1,0 +1,33 @@
+#!/bin/bash
+set -euo pipefail
+
+tmux capture-pane -J -p \
+  | grep -E -o \
+    -e '[a-z]+://\S+' \
+    -e '[[:alnum:]_/\.\-~]+/[[:alnum:]_/\.\-~]+' \
+    -e '[[:alnum:]_/\.\-~]+\.[[:alnum:]]+' \
+  | uniq \
+  | fzf \
+    --tac \
+    --tmux center,90%,90% \
+    --expect=ctrl-y,ctrl-o,enter \
+    --header 'Enter: insert, CTRL-Y: copy, CTRL-O: open' \
+  | {
+    read -r key
+    case "$key" in
+      ctrl-y)
+        clip-os
+        ;;
+      ctrl-o)
+        read -r arg
+        open-os "$arg"
+        ;;
+      enter)
+        tmux load-buffer -
+        tmux paste-buffer -s ' '
+        ;;
+      *)
+        tmux display-message "unknown key $key"
+        :;
+      esac
+    } || true
