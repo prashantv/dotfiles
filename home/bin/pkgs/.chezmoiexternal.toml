@@ -10,7 +10,7 @@
 {{ $jqpVersion := "0.1.0" }}
 {{ $nvimVersion := "0.10.2" }}
 {{ $ripgrepVersion := "13.0.0" }}
-{{ $tmuxFastCopyVersion := "0.8.0" }}
+{{ $tmuxFastCopyVersion := "0.14.1" }}
 
 ["age"]
   type = "archive"
