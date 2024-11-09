@@ -8,6 +8,7 @@
   branches = "!f() { git branch -l | cut -c3- | fzf -q \"$1\" --preview='git log --name-status -10 {}'; }; f"
   cb = checkout -b
   ci = commit
+  cfi = !git commit --fixup $(git branch-commits)
   cam = commit --amend --no-edit
   co = checkout
   commits = "!f() { git log --no-decorate --oneline --color --decorate -100 \"$@\" | fzf --ansi --preview='git log --name-status -1 {1}' --bind 'enter:become(echo {1})'; }; f"
@@ -38,6 +39,8 @@
 	autosetuprebase = always
 [rerere]
 	enabled = true
+[rebase]
+  autoSquash = true
 [push]
 	default = simple
 [filter "lfs"]
