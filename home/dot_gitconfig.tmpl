@@ -54,6 +54,7 @@
 # Allow overrides for local environment (like user)
 [include]
   path = .gitconfig_local
+  path = .gitconfig_gen
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
@@ -67,25 +68,19 @@
 
 [core]
 	excludesfile = ~/.gitignore_global
-	{{- if .features.delta }}
-	pager = delta
-	{{- end }}
-
-{{ if .features.delta -}}
-[interactive]
-	diffFilter = delta --color-only
-
-[delta]
-	navigate = true  # use n and N to move between diff sections
-	line-numbers = true
-	side-by-side = true
+  # pager may be set to delta in gitconfig_gen
 
 [merge]
 	conflictstyle = diff3
 
 [diff]
 	colorMoved = default
-{{- end }}
+
+[delta]
+	navigate = true  # use n and N to move between diff sections
+	line-numbers = true
+	side-by-side = true
+
 
 [pull]
 	ff = only
