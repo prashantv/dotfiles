@@ -11,7 +11,7 @@
   cfi = !git commit --fixup $(git branch-commits)
   cam = commit --amend --no-edit
   co = checkout
-  commits = "!f() { git log --no-decorate --oneline --color --decorate -100 \"$@\" | fzf --ansi --preview='git log --name-status -1 {1}' --bind 'enter:become(echo {1})'; }; f"
+  commits = "!f() { git log --oneline --color --no-decorate -100 \"$@\" | fzf --ansi --preview='git log --name-status -1 {1}' --bind 'enter:become(echo {1})'; }; f"
   current-branch = branch --show-current
   d = diff
   dc = diff --cached
