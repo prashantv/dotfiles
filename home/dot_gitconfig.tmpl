@@ -1,22 +1,35 @@
 [alias]
   a = add
-	b     = branch
+  aliases = config --get-regexp alias
+  b     = branch
   ap = add -p
+  base = !git merge-base HEAD $(git main)
+  branch-commits = !git commits $(git base)..HEAD
+  branches = "!f() { git branch -l | cut -c3- | fzf -q \"$1\" --preview='git log --name-status -10 {}'; }; f"
   cb = checkout -b
   ci = commit
+  cam = commit --amend --no-edit
   co = checkout
+  commits = "!f() { git log --no-decorate --oneline --color --decorate -100 \"$@\" | fzf --ansi --preview='git log --name-status -1 {1}' --bind 'enter:become(echo {1})'; }; f"
+  current-branch = branch --show-current
   d = diff
-  ds = diff --stat
   dc = diff --cached
-  dw = diff -w
-	l     = log --graph
-	lp    = log --graph --first-parent
-	st    = status
-
-  # log with local times
-  llog = log --date=local
-  # what files are changed
-  changes  = diff --name-status -r
+  ds = diff --stat
+  delete-current-branch = "!cur=$(git current-branch); git checkout $(git main) && git branch -D $cur"
+  dcb = delete-current-branch
+  diff-word = diff -w
+  dw = diff-word
+  # preferred log format: files changed, local times
+  l = log --name-status --date=local
+  last = log --name-status -1 HEAD --date=local
+  # print the main branch name (try main/master)
+  main = "!(git rev-parse --verify main >/dev/null 2>&1 && echo 'main') || (git rev-parse --verify master >/dev/null 2>&1 && echo 'master') || echo >2 'No base branch found'"
+  pullf = !git fetch && git reset --hard @{u}
+  pushf = push --force-with-lease
+  pusho = push -u origin HEAD
+  rebase-main = !git rebase -i $(git main)
+  st = status
+  whoami = config user.email
 
 [user]
   email = {{ .git.email }}
@@ -82,3 +95,5 @@
 	ch = branch checkout
 	sync = repo sync
 	sub = branch submit
+	submit = branch submit
+

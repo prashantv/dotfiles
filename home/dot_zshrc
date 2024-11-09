@@ -104,6 +104,11 @@ alias jj='fasd_cd -d -i' # cd with interactive selection
 # vim quit
 alias ':q'=exit
 alias g=git
+alias gb='git branches'
+alias gbc='git branches | read C'
+alias gcm='git commits'
+alias gcmc='git commits | read C'
+alias gcb='git current-branch'
 alias l=ls
 alias ll=ls -al
 alias ag='ag --path-to-ignore=~/.agignore'
@@ -138,20 +143,8 @@ function cdd() {
   fi
 }
 
-function gb() {
-  git branch -l | cut -c3- | grep "$1" | fzf
-}
-
-function gbc() {
-  gb | read C
-}
-
 function gch() {
   git checkout $(gb $1)
-}
-
-function gcb() {
-  git branch --show-current
 }
 
 function grb() {
@@ -159,40 +152,8 @@ function grb() {
 }
 
 function grbm() {
-  git rebase -i "$(git-main)"
+  git rebase -i "$(git main)"
 }
-
-# return the root branch (e.g., main, master)
-function git-main {
-  local main_branches=("master" "main")
-
-  for branch_name in "${main_branches[@]}"; do
-    if git-exists "$branch_name"; then
-      echo "$branch_name"
-      return
-    fi
-  done
-
-  echo NO-MAIN-BRANCH-FOUND
-}
-
-function git-exists() {
-  local branch_name="$1"
-  git rev-parse --quiet --verify "$branch_name" > /dev/null
-}
-
-function git-push-set-origin {
-  echo "$ git push -u origin $(gcb)"
-  git push -u origin $(gcb)
-}
-function git-pso { git-push-set-origin }
-
-function git-delete-current-branch {
-  cur_branch=$(git branch --show-current)
-  git checkout master
-  git branch -D "$cur_branch"
-}
-function git-dcb { git-delete-current-branch }
 
 function git-delete-merged-branches {
   for b in $(git remote prune origin --dry-run |
