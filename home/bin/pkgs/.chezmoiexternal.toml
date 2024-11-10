@@ -54,6 +54,10 @@
   type = "archive"
   url = "https://github.com/junegunn/fzf/releases/download/v{{ $fzfVersion }}/fzf-{{ $fzfVersion }}-{{ .chezmoi.os }}_{{ .chezmoi.arch }}.tar.gz"
 
+["fzf-git/fzf-git.sh"]
+  type = "file"
+  url = "https://raw.githubusercontent.com/junegunn/fzf-git.sh/main/fzf-git.sh"
+
 ["git-spice"]
   type = "archive"
   {{ $gitSpiceArch := .chezmoi.arch | replace "amd64" "x86_64" }}
