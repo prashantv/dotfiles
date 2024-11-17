@@ -26,6 +26,7 @@ This requires an SSH key to be setup, and added to GitHub,
 ## Tips
 - Pass `--branch <branch>` to to initialize from a specific branch (useful when developing).
 - [GitHub SSH Key Management](https://github.com/settings/keys)
+- Install `zsh` and change shell using `chsh`.
 
 
 ## Quick testing on ephemeral Debian instance
