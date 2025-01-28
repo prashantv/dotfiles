@@ -3,7 +3,7 @@
 {{ $deltaVersion := "0.13.0" }}
 {{ $fdVersion := "8.3.2" }}
 {{ $fzfVersion := "0.56.0" }}
-{{ $gitSpiceVersion := "0.8.0" }}
+{{ $gitSpiceVersion := "0.10.0" }}
 {{ $gojqVersion := "0.12.8" }}
 {{ $gronVersion := "0.7.1" }}
 {{ $hxVersion := "23.05" }}
