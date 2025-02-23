@@ -1,15 +1,15 @@
 {{ $ageVersion := "1.0.0" }}
-{{ $batVersion := "0.21.0" }}
+{{ $batVersion := "0.25.0" }}
 {{ $deltaVersion := "0.18.2" }}
-{{ $fdVersion := "8.3.2" }}
-{{ $fzfVersion := "0.56.0" }}
+{{ $fdVersion := "10.2.0" }}
+{{ $fzfVersion := "0.60.1" }}
 {{ $gitSpiceVersion := "0.10.0" }}
-{{ $gojqVersion := "0.12.8" }}
+{{ $gojqVersion := "0.12.17" }}
 {{ $gronVersion := "0.7.1" }}
-{{ $hxVersion := "23.05" }}
-{{ $jqpVersion := "0.1.0" }}
-{{ $nvimVersion := "0.10.2" }}
-{{ $ripgrepVersion := "13.0.0" }}
+{{ $hxVersion := "25.01.1" }}
+{{ $jqpVersion := "0.7.0" }}
+{{ $nvimVersion := "0.10.4" }}
+{{ $ripgrepVersion := "14.1.1" }}
 {{ $tmuxFastCopyVersion := "0.14.1" }}
 
 ["age"]
@@ -82,14 +82,15 @@
 ["hx"]
   type = "archive"
   {{ $hxArch := .chezmoi.arch | replace "amd64" "x86_64" | replace "arm64" "aarch64" }}
-  url = "https://github.com/helix-editor/helix/releases/download/{{ $hxVersion }}/helix-{{ $hxVersion }}-{{ $hxArch }}-{{ .chezmoi.os}}.tar.xz"
+  {{ $hxOS := .chezmoi.os | replace "darwin" "macos" }}
+  url = "https://github.com/helix-editor/helix/releases/download/{{ $hxVersion }}/helix-{{ $hxVersion }}-{{ $hxArch }}-{{ $hxOS }}.tar.xz"
   stripComponents = 1
 
 ["jqp"]
   type = "archive"
   {{ $jqpArch := .chezmoi.arch | replace "amd64" "x86_64" }}
   {{ $jqpOs := .chezmoi.os | title }}
-  url = "https://github.com/noahgorstein/jqp/releases/download/v{{ $jqpVersion }}/jqp_{{ $jqpVersion }}_{{ $jqpOs }}_{{ $jqpArch }}.tar.gz"
+  url = "https://github.com/noahgorstein/jqp/releases/download/v{{ $jqpVersion }}/jqp_{{ $jqpOs }}_{{ $jqpArch }}.tar.gz"
 
 ["nvim"]
   type = "archive"
