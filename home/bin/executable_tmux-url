@@ -1,0 +1,32 @@
+#!/bin/bash
+set -euo pipefail
+
+tmux capture-pane -J -p \
+  | grep -E -o \
+    -e 'http(s?)://\S+' \
+  | uniq \
+  | fzf \
+    --tac \
+    --tmux center,90%,90% \
+    --expect=ctrl-y,ctrl-o,enter \
+    --select-1 \
+    --header 'Enter: open, CTRL-Y: copy, CTRL-O: insert' \
+  | {
+    read -r key
+    case "$key" in
+      ctrl-y)
+        # copy into OS clipboard + tmux buffer
+        tmux load-buffer -w -
+        ;;
+      ctrl-o)
+        # load selected item into tmux buffer for easy re-use and write it out.
+        tmux load-buffer -
+        tmux paste-buffer -s ' '
+        ;;
+      *)
+        # open using the OS
+        read -r arg
+        open-os "$arg"
+        ;;
+      esac
+    } || true
