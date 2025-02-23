@@ -1,6 +1,6 @@
 {{ $ageVersion := "1.0.0" }}
 {{ $batVersion := "0.21.0" }}
-{{ $deltaVersion := "0.13.0" }}
+{{ $deltaVersion := "0.18.2" }}
 {{ $fdVersion := "8.3.2" }}
 {{ $fzfVersion := "0.56.0" }}
 {{ $gitSpiceVersion := "0.10.0" }}
