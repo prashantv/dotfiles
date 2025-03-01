@@ -1,3 +1,4 @@
+zmodload zsh/zprof
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -174,6 +175,16 @@ function git-root {
 # use jq to prettify json
 function json-fmt {
   cat $1 | jq -r . | sponge $1
+}
+
+function cdnew {
+  mkdir -p -- "$1" && cd -P -- "$1"
+}
+
+function cddel {
+  dir=$(pwd)
+  cd ..
+  rm -r $(dir) $@
 }
 
 # enable direnv if installed
