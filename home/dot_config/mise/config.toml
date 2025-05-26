@@ -1,7 +1,32 @@
 [tools]
-go = "1.23.3"
+
+# Git related tools
 github-cli = "latest"
-"go:github.com/golangci/golangci-lint/cmd/golangci-lint" = "latest"
+"ubi:abhinav/git-spice" = { version = "0.13.0", exe = "gs" }
+
+# Go related tools
+go = "1.24.3"
+golangci-lint = "1"
+
+# Newer replacements for Unix tools
+bat = "0.25"
+delta = "0.18"
+fd = "10"
+fzf = "0.62"
+ripgrep = "14"
+
+# Editors
+helix = "25"
+neovim = "0.11.1"
+
+# JSON / YAML tools
+fx = "36" # json playground
+gojq = "0.12"
+gron = "0.7" # greppable json
+yq = "4"
+
+# Other
+"ubi:abhinav/tmux-fastcopy" = "0.14"
 
 [settings]
 experimental = true

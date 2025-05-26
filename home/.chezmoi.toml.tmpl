@@ -4,21 +4,3 @@
 [data.features]
   profile = "{{ . | dig "features" $defaultDict | dig "profile" .chezmoi.hostname }}"
 
-  # tools
-  {{- with (. | dig "features" $defaultDict) }}
-  age = {{ . | dig "age" false }}
-  bat = {{ . | dig "bat" false }}
-  delta = {{ . | dig "delta" false }}
-  direnv = {{ . | dig "direnv" false }}
-  fd = {{ . | dig "fd" false }}
-  fx = {{ . | dig "fx" false }}
-  gitspice = {{ . | dig "gitspice" false }}
-  gojq = {{ . | dig "gojq" false }}
-  gron = {{ . | dig "gron" false }}
-  hx = {{ . | dig "hx" false }}
-  jqp = {{ . | dig "jqp" false }}
-  nvim = {{ . | dig "nvim" false }}
-  rg = {{ . | dig "rg" false }}
-  sops = {{ . | dig "sops" false }}
-  yq = {{ . | dig "yq" false }}
-  {{- end }}
