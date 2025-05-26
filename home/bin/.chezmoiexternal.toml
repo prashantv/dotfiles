@@ -10,12 +10,6 @@
   url = "https://raw.githubusercontent.com/clvv/fasd/master/fasd"
   executable = true
 
-["fzf-tmux"]
-  type = "file"
-  url = "https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux"
-  executable = true
-  refresh = 0 # only manually
-
 ["mise"]
   type = "file"
   {{ $miseSuffix := printf "%v-%v" .chezmoi.os .chezmoi.arch }}
