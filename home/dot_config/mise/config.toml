@@ -2,7 +2,7 @@
 
 # Git related tools
 github-cli = "latest"
-"ubi:abhinav/git-spice" = { version = "0.14.1", exe = "gs" }
+"ubi:abhinav/git-spice" = { version = "0.15.0", exe = "gs" }
 
 # Go related tools
 go = "1.24.3"
