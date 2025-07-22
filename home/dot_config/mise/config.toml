@@ -1,8 +1,11 @@
+[alias]
+gs = 'ubi:abhinav/git-spice[exe=gs]'
+
 [tools]
 
 # Git related tools
 github-cli = "latest"
-"ubi:abhinav/git-spice" = { version = "0.15.0", exe = "gs" }
+gs = "0.15.2"
 
 # Go related tools
 go = "1.24.3"
