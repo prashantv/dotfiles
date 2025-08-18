@@ -14,6 +14,8 @@
   ci = commit
   cfi = !git commit --fixup $(git branch-commits)
   cam = commit --amend --no-edit
+  cama = commit --amend -a --no-edit
+  cm = commit --amend
   co = checkout
   com = !git checkout $(git main)
   commits = "!f() { git log --oneline --color --no-decorate -100 \"$@\" | fzf --ansi --preview='git show --stat --color --patch {1}' --bind 'enter:become(echo {1})'; }; f"
