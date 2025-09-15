@@ -1,0 +1,52 @@
+#!/bin/bash
+set -euo pipefail
+
+find_tailscale_executable() {
+    local potential_paths=(
+        # user-specified override
+        "${TS_EXECUTABLE:-tailscale-executable-override}"
+
+        # macOS
+        "/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
+        "tailscale"
+    )
+
+    for path in "${potential_paths[@]}"; do
+        if command -v "$path" &> /dev/null; then
+            return 0
+        fi
+    done
+
+    echo "Error: Could not find the Tailscale executable. Please set the TS_EXECUTABLE variable in the script." >&2
+    exit 1
+}
+
+# usage
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <tailscale_device_name> <mac_address>"
+    exit 1
+fi
+
+tsDevice=$1
+mac=$2
+TS=$(find_tailscale_executable)
+
+echo "Using Tailscale executable: $TS"
+
+# Get the Peer API URL for the specified device
+echo "Fetching Peer API URL for device: $tsDevice"
+apiURL=$($TS status --json | \
+  jq -r --arg device "$tsDevice" '.Peer[] | select(.HostName == $device) | .PeerAPIURL[0]')
+
+if [ -z "$apiURL" ] || [ "$apiURL" == "null" ]; then
+    echo "Error: Could not find a Peer API URL for device '$tsDevice'. Make sure the device is online and connected to your Tailnet."
+    exit 1
+fi
+
+echo "Found Peer API URL: $apiURL"
+
+# Send the WOL packet
+echo "Sending WOL packet to MAC address: $mac"
+curl -s -d "mac=$mac" "${apiURL}/v0/wol"
+
