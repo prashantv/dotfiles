@@ -103,3 +103,5 @@
 	sub = branch submit
 	submit = branch submit
 
+[spice "experiment"]
+	commitFixup = true
