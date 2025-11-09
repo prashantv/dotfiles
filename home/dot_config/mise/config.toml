@@ -2,7 +2,7 @@
 
 # Git related tools
 github-cli = "latest"
-gs = "0.18.0"
+gs = "0.20.0"
 
 # Go related tools
 go = "1.24.3"

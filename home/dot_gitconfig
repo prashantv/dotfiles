@@ -105,3 +105,4 @@
 
 [spice "experiment"]
 	commitFixup = true
+	commitPick = true
