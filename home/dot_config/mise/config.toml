@@ -28,7 +28,7 @@ yq = "4"
 # Other
 tmux-fastcopy = "0.14.1"
 
-[alias]
+[tool_alias]
 gs = "ubi:abhinav/git-spice[exe=gs]"
 tmux-fastcopy = "ubi:abhinav/tmux-fastcopy"
 ente = "ubi:ente-io/ente[tag_regex=cli-v0]"
