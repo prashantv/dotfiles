@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+AUTHORIZED_KEYS="$HOME/.ssh/authorized_keys"
+
+mkdir -p "$(dirname "$AUTHORIZED_KEYS")"
+touch "$AUTHORIZED_KEYS"
+
+keys=$(curl -fsSL https://github.com/prashantv.keys)
+
+while IFS= read -r key; do
+  [ -z "$key" ] && continue
+  if ! grep -qF "$key" "$AUTHORIZED_KEYS"; then
+    echo "$key" >> "$AUTHORIZED_KEYS"
+    echo "Added: ${key:0:40}..."
+  fi
+done <<< "$keys"
