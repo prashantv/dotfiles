@@ -194,9 +194,6 @@ then
 fi
 
 
-# Simplify chezmoi management
-alias cm=chezmoi
-
 # Env-specific settings
 source ~/.zshrc_local
 
