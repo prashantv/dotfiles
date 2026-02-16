@@ -188,9 +188,10 @@ fi
 if ! command -v mise >/dev/null 2>&1; then
   echo "  Installing mise..."
   curl -fsSL https://mise.run | sh
-else
-  echo "  mise already installed"
 fi
+export PATH="$HOME/.local/bin:$PATH"
+echo "  Running mise install..."
+mise install
 
 # --- Misc setup ---
 
