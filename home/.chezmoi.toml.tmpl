@@ -1,6 +1,0 @@
-{{/* defaultDict is not empty so "with" isn't skipped */}}
-{{- $defaultDict := dict "_" "_" -}}
-
-[data.features]
-  profile = "{{ . | dig "features" $defaultDict | dig "profile" .chezmoi.hostname }}"
-

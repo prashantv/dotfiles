@@ -88,7 +88,7 @@ __git_files () {
 unsetopt pathdirs
 
 # Prashant's custom settings
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
 # Use mise + shims
 #eval "$(mise activate --shims)"
@@ -193,9 +193,6 @@ then
   eval "$(direnv hook zsh)"
 fi
 
-
-# Simplify chezmoi management
-alias cm=chezmoi
 
 # Env-specific settings
 source ~/.zshrc_local

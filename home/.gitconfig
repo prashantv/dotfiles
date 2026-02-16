@@ -62,7 +62,7 @@
 # Allow overrides for local environment (like user)
 [include]
   path = .gitconfig_local
-  path = .gitconfig_gen
+  path = .gitconfig_delta
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
@@ -76,7 +76,7 @@
 
 [core]
 	excludesfile = ~/.gitignore_global
-  # pager may be set to delta in gitconfig_gen
+  # pager may be set to delta in gitconfig_delta
 
 [merge]
 	conflictstyle = zdiff3
