@@ -195,5 +195,5 @@ fi
 
 
 # Env-specific settings
-source ~/.zshrc_local
+[[ -f ~/.zshrc_local ]] && source ~/.zshrc_local
 
