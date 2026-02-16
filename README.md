@@ -34,9 +34,9 @@ curl -fsSL https://raw.githubusercontent.com/prashantv/dotfiles/<branch>/setup.s
 ## How it works
 
 - Files in `home/` are symlinked to `~/`, so edits in the repo immediately take effect.
-- Machine-specific config lives in `home/.profiles/<name>/zshrc_local`, selected via `--profile`.
+- Machine-specific config lives in `profiles/<name>/zshrc_local`, selected via `--profile`.
 - External dependencies (zprezto, fzf-tab, direnv, fasd, fzf-git, mise) are installed automatically.
-- `~/.gitconfig_gen` is generated with delta config if delta is available.
+- `~/.gitconfig_delta` is generated with delta config if delta is available.
 
 ## Dependencies
 

@@ -68,53 +68,54 @@ else
   rm -f "$tmptar"
 fi
 
-# --- Symlink home/ → ~/ ---
+# Symlink every file in the given directory to the corresponding path under $HOME.
+# Existing files are backed up to $BACKUP_DIR; existing correct symlinks are skipped.
+symlink_dir() {
+  dir="$1"
+  (cd "$dir" && find . -type f | while read -r rel; do
+    rel="${rel#./}"
+    target="$dir/$rel"
+    link="$HOME/$rel"
 
+    # Already symlinked to target — skip
+    if [ -L "$link" ] && [ "$(readlink "$link")" = "$target" ]; then
+      continue
+    fi
+
+    # Back up existing file
+    if [ -e "$link" ] || [ -L "$link" ]; then
+      mkdir -p "$BACKUP_DIR/$(dirname "$rel")"
+      mv "$link" "$BACKUP_DIR/$rel"
+      echo "  backed up ~/$rel → $BACKUP_DIR/$rel"
+    fi
+
+    mkdir -p "$(dirname "$link")"
+    ln -sf "$target" "$link"
+  done)
+}
+
+# --- Symlink common files ---
 echo "Symlinking dotfiles..."
-(cd "$HOME_DIR" && find . -type f | while read -r rel; do
-  # Strip leading ./
-  rel="${rel#./}"
-
-  # Skip .profiles directory (handled separately)
-  case "$rel" in .profiles/*) continue ;; esac
-
-  src="$HOME_DIR/$rel"
-  dst="$HOME/$rel"
-
-  # Already symlinked to us — skip
-  if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
-    continue
-  fi
-
-  # Back up existing file
-  if [ -e "$dst" ] || [ -L "$dst" ]; then
-    mkdir -p "$BACKUP_DIR/$(dirname "$rel")"
-    mv "$dst" "$BACKUP_DIR/$rel"
-    echo "  backed up ~/$rel → $BACKUP_DIR/$rel"
-  fi
-
-  mkdir -p "$(dirname "$dst")"
-  ln -sf "$src" "$dst"
-done)
+symlink_dir "$HOME_DIR"
 echo "  done"
 
-# --- Profile setup ---
-
-profile_dir="$HOME_DIR/.profiles/$PROFILE"
+# --- Symlink profile-specific files ---
+profile_dir="$DOTFILES_DIR/profiles/$PROFILE"
 if [ -d "$profile_dir" ]; then
-  echo "Setting profile: $PROFILE"
-  ln -sf "$profile_dir/zshrc_local" "$HOME/.zshrc_local"
+  echo "Symlink for profile: $PROFILE"
+  symlink_dir "$profile_dir"
+  echo "  done"
 else
   echo "Warning: profile '$PROFILE' not found at $profile_dir" >&2
   echo "Available profiles:"
-  ls "$HOME_DIR/.profiles/" 2>/dev/null || echo "  (none)"
+  ls "$DOTFILES_DIR/profiles/" 2>/dev/null || echo "  (none)"
 fi
 
-# --- Generate .gitconfig_gen ---
+# --- Generate .gitconfig_delta ---
 
-echo "Generating ~/.gitconfig_gen..."
+echo "Generating ~/.gitconfig_delta..."
 if command -v delta >/dev/null 2>&1; then
-  cat > "$HOME/.gitconfig_gen" <<'GITCFG'
+  cat > "$HOME/.gitconfig_delta" <<'GITCFG'
 [core]
 	pager = delta
 
@@ -122,7 +123,7 @@ if command -v delta >/dev/null 2>&1; then
 	diffFilter = delta --color-only
 GITCFG
 else
-  : > "$HOME/.gitconfig_gen"
+  : > "$HOME/.gitconfig_delta"
 fi
 
 # --- External dependencies ---
@@ -138,7 +139,9 @@ if [ ! -d "$HOME/.zprezto" ]; then
     "--recurse-submodules=modules/prompt/*" \
     https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
 else
-  echo "  zprezto already installed"
+  echo "  Updating zprezto..."
+  git -C "$HOME/.zprezto" pull
+  git -C "$HOME/.zprezto" submodule update --init --recursive
 fi
 
 # fzf-tab
@@ -147,7 +150,8 @@ if [ ! -d "$HOME/.zprezto-contrib/fzf-tab" ]; then
   mkdir -p "$HOME/.zprezto-contrib"
   git clone --depth=100 https://github.com/Aloxaf/fzf-tab "$HOME/.zprezto-contrib/fzf-tab"
 else
-  echo "  fzf-tab already installed"
+  echo "  Updating fzf-tab..."
+  git -C "$HOME/.zprezto-contrib/fzf-tab" pull
 fi
 
 # direnv
