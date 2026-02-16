@@ -12,6 +12,7 @@
 set -eu
 
 REPO_URL="https://github.com/prashantv/dotfiles"
+SSH_REPO_URL="git@github.com:prashantv/dotfiles.git"
 DOTFILES_DIR="$HOME/dotfiles"
 BRANCH="main"
 PROFILE=""
@@ -21,9 +22,8 @@ usage() {
   cat <<EOF
 Usage: setup.sh [OPTIONS]
   --branch NAME      Branch to use (default: main)
-  --git              Clone via git instead of downloading tarball
+  --git              Clone via SSH instead of downloading tarball
   --profile NAME     Machine profile for zshrc_local (default: hostname)
-  --repo URL         Git repo URL (default: $REPO_URL)
   --dir PATH         Install directory (default: $DOTFILES_DIR)
   --help             Show usage
 EOF
@@ -35,7 +35,6 @@ while [ $# -gt 0 ]; do
     --branch)  BRANCH="$2"; shift 2 ;;
     --git)     USE_GIT=1; shift ;;
     --profile) PROFILE="$2"; shift 2 ;;
-    --repo)    REPO_URL="$2"; shift 2 ;;
     --dir)     DOTFILES_DIR="$2"; shift 2 ;;
     --help)    usage ;;
     *)         echo "Unknown option: $1" >&2; usage ;;
@@ -59,7 +58,7 @@ elif [ -d "$DOTFILES_DIR/home" ]; then
   echo "Dotfiles already present at $DOTFILES_DIR"
 elif [ "$USE_GIT" = 1 ]; then
   echo "Cloning dotfiles to $DOTFILES_DIR (branch: $BRANCH)..."
-  git clone --branch "$BRANCH" "$REPO_URL" "$DOTFILES_DIR"
+  git clone --branch "$BRANCH" "$SSH_REPO_URL" "$DOTFILES_DIR"
 else
   echo "Downloading dotfiles to $DOTFILES_DIR..."
   tmptar="$(mktemp)"

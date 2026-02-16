@@ -7,7 +7,7 @@ Fresh install (no git required):
 curl -fsSL https://raw.githubusercontent.com/prashantv/dotfiles/main/setup.sh | bash
 ```
 
-With git (for a writable clone):
+With git (clones via SSH for a writable clone):
 ```bash
 curl -fsSL https://raw.githubusercontent.com/prashantv/dotfiles/main/setup.sh | bash -s -- --git
 ```
@@ -21,9 +21,8 @@ From an existing clone:
 
 ```
   --branch NAME      Branch to use (default: main)
-  --git              Clone via git instead of downloading tarball
+  --git              Clone via SSH instead of downloading tarball
   --profile NAME     Machine profile for zshrc_local (default: hostname)
-  --repo URL         Git repo URL (default: https://github.com/prashantv/dotfiles)
   --dir PATH         Install directory (default: ~/dotfiles)
 ```
 
