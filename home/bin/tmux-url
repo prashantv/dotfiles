@@ -1,10 +1,27 @@
 #!/bin/bash
 set -euo pipefail
 
-tmux capture-pane -J -p \
-  | grep -E -o \
-    -e 'http(s?)://\S+' \
-  | uniq \
+extract_urls() {
+  tmux capture-pane -J -p "$@" \
+    | grep -E -o -e 'http(s?)://\S+' \
+    | awk '!seen[$0]++' \
+    || true
+}
+
+urls=$(extract_urls)
+if [[ -z "$urls" ]]; then
+  for lines in 500 5000 99999; do
+    urls=$(extract_urls -S "-$lines")
+    [[ -n "$urls" ]] && break
+  done
+fi
+
+if [[ -z "$urls" ]]; then
+  tmux display-message "No URLs found"
+  exit 0
+fi
+
+echo "$urls" \
   | fzf \
     --tac \
     --tmux center,90%,90% \
