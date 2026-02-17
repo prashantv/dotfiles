@@ -68,28 +68,53 @@ else
   rm -f "$tmptar"
 fi
 
-# Symlink every file in the given directory to the corresponding path under $HOME.
+# Back up an existing file or symlink at $1, storing it under $BACKUP_DIR
+# at the relative path $2. No-op if nothing exists at $1.
+backup_existing() {
+  link="$1" rel="$2"
+  if [ -e "$link" ] || [ -L "$link" ]; then
+    mkdir -p "$BACKUP_DIR/$(dirname "$rel")"
+    mv "$link" "$BACKUP_DIR/$rel"
+    echo "  backed up ~/$rel → $BACKUP_DIR/$rel"
+  fi
+}
+
+# Symlink files and directories from $1 into $HOME.
+# - Files get per-file symlinks (so local files can coexist, e.g. in bin/).
+# - Directories with a ".managed" suffix (e.g., .zsh.managed) are symlinked as
+#   a whole directory. Other directories are walked recursively per-file.
 # Existing files are backed up to $BACKUP_DIR; existing correct symlinks are skipped.
 symlink_dir() {
   dir="$1"
-  (cd "$dir" && find . -type f | while read -r rel; do
-    rel="${rel#./}"
-    target="$dir/$rel"
-    link="$HOME/$rel"
 
-    # Already symlinked to target — skip
+  # Use find to walk files and directories in one pass.
+  # -name '*.managed' dirs are symlinked whole and not descended into (-prune).
+  # Everything else is symlinked per-file.
+  (cd "$dir" && find . \( -name '*.managed' -type d -prune \) -o -type f -print | while read -r entry; do
+    entry="${entry#./}"
+    target="$dir/$entry"
+    link="$HOME/$entry"
+
     if [ -L "$link" ] && [ "$(readlink "$link")" = "$target" ]; then
       continue
     fi
 
-    # Back up existing file
-    if [ -e "$link" ] || [ -L "$link" ]; then
-      mkdir -p "$BACKUP_DIR/$(dirname "$rel")"
-      mv "$link" "$BACKUP_DIR/$rel"
-      echo "  backed up ~/$rel → $BACKUP_DIR/$rel"
+    backup_existing "$link" "$entry"
+    mkdir -p "$(dirname "$link")"
+    ln -sf "$target" "$link"
+  done)
+
+  # Symlink *.managed directories as a whole.
+  (cd "$dir" && find . -maxdepth 1 -name '*.managed' -type d -print | while read -r entry; do
+    entry="${entry#./}"
+    target="$dir/$entry"
+    link="$HOME/$entry"
+
+    if [ -L "$link" ] && [ "$(readlink "$link")" = "$target" ]; then
+      continue
     fi
 
-    mkdir -p "$(dirname "$link")"
+    backup_existing "$link" "$entry"
     ln -sf "$target" "$link"
   done)
 }
@@ -130,28 +155,22 @@ fi
 
 echo "Installing external dependencies..."
 
-# zprezto
-if [ ! -d "$HOME/.zprezto" ]; then
-  echo "  Cloning zprezto..."
-  git clone --depth=100 \
-    --shallow-submodules \
-    --recurse-submodules=modules/completion/external \
-    "--recurse-submodules=modules/prompt/*" \
-    https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+# powerlevel10k
+if [ ! -d "$HOME/.local/share/powerlevel10k" ]; then
+  echo "  Cloning powerlevel10k..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/.local/share/powerlevel10k"
 else
-  echo "  Updating zprezto..."
-  git -C "$HOME/.zprezto" pull
-  git -C "$HOME/.zprezto" submodule update --init --recursive
+  echo "  Updating powerlevel10k..."
+  git -C "$HOME/.local/share/powerlevel10k" pull
 fi
 
 # fzf-tab
-if [ ! -d "$HOME/.zprezto-contrib/fzf-tab" ]; then
+if [ ! -d "$HOME/.local/share/fzf-tab" ]; then
   echo "  Cloning fzf-tab..."
-  mkdir -p "$HOME/.zprezto-contrib"
-  git clone --depth=100 https://github.com/Aloxaf/fzf-tab "$HOME/.zprezto-contrib/fzf-tab"
+  git clone --depth=1 https://github.com/Aloxaf/fzf-tab "$HOME/.local/share/fzf-tab"
 else
   echo "  Updating fzf-tab..."
-  git -C "$HOME/.zprezto-contrib/fzf-tab" pull
+  git -C "$HOME/.local/share/fzf-tab" pull
 fi
 
 # direnv

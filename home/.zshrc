@@ -1,4 +1,3 @@
-zmodload zsh/zprof
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -6,25 +5,32 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+# Shell configuration modules (see comments in each file for upstream links).
+source ~/.zsh.managed/environment.zsh  # Smart URLs, interactive comments, stty
+source ~/.zsh.managed/history.zsh      # History dedup options and variables
+source ~/.zsh.managed/directory.zsh    # Directory navigation options (auto_cd, pushd)
+source ~/.zsh.managed/editor.zsh       # Emacs keybindings and terminfo key setup
+source ~/.zsh.managed/completion.zsh   # compinit, case-insensitive matching, caching
+source ~/.zsh.managed/glob.zsh
 
-# Bash auto-completion compat
-autoload bashcompinit
-bashcompinit
+# Don't overwrite existing files with > and >>. Use >! or >| and >>! to bypass.
+unsetopt CLOBBER
 
-autoload -Uz compinit
+# Disable Ctrl+S/Ctrl+Q flow control (prevents terminal freezing on Ctrl+S).
+# FLOW_CONTROL disables it in ZLE; stty -ixon disables it at the terminal level.
+unsetopt FLOW_CONTROL
+[[ -r ${TTY:-} && -w ${TTY:-} && $+commands[stty] == 1 ]] && stty -ixon <$TTY >$TTY
 
-
-# Prompt theming
-autoload -Uz promptinit
-promptinit
-
-setopt prompt_subst
-#
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# Prompt
+autoload -Uz promptinit && promptinit
+source ~/.local/share/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# configure fzf-tab completion
+# fzf-tab (must be after compinit, before fzf-tab zstyles)
+source ~/.local/share/fzf-tab/fzf-tab.plugin.zsh
+
+# fzf-tab completion settings — these override some zstyles from completion.zsh
+# (descriptions format, menu no) which is intentional for fzf-tab to work.
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # set descriptions format to enable group support
@@ -40,9 +46,12 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls $realpath'
 # preview files using bat when completing vim
 zstyle ':fzf-tab:complete:vim:*' fzf-preview 'cat $realpath'
 
+#
+# User config
+#
 
 export GITHUB_USER=prashantv
-#
+
 function jg() {
   if [ -d $GOPATH/src/github.com/prashantv/$1 ]; then
     cd $GOPATH/src/github.com/prashantv/$1
@@ -72,32 +81,24 @@ refresh_tmux_env() {
   done
 }
 
-#cache-path must exist
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
-
-# speed up zsh+git autocomplete
-# __git_heads_remote in zprof so disable remotes in auto-complete, from https://stackoverflow.com/questions/12175277/disable-auto-completion-of-remote-branches-in-zsh
+# Speed up zsh+git autocomplete.
+# Disable remote branches in checkout completion (__git_heads_remote is slow):
+# https://stackoverflow.com/questions/12175277/disable-auto-completion-of-remote-branches-in-zsh
 zstyle :completion::complete:git-checkout:argument-rest:headrefs command "git for-each-ref --format='%(refname)' refs/heads 2>/dev/null"
-# __git_files in zprof to use local files, from https://itecnote.com/tecnote/bash-zsh-auto-completion-for-git-takes-significant-amount-of-time-can-i-turn-it-off-or-optimize-it/
+# Override __git_files to use local files only (the default walks the entire repo):
+# https://itecnote.com/tecnote/bash-zsh-auto-completion-for-git-takes-significant-amount-of-time-can-i-turn-it-off-or-optimize-it/
 __git_files () {
     _wanted files expl 'local files' _files
 }
 
-# when PATH is large (esp WSL), pathdirs makes auto-complete hang.
-unsetopt pathdirs
-
-# Prashant's custom settings
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
-# Use mise + shims
-#eval "$(mise activate --shims)"
+# Use mise
 eval "$(mise activate)"
-
 
 # Aliases
 
-# fast with autojump aliases
+# fasd with autojump aliases
 eval "$(fasd --init auto)"
 alias j='fasd_cd -d'     # cd, same functionality as j in autojump
 alias jj='fasd_cd -d -i' # cd with interactive selection
@@ -111,13 +112,9 @@ alias gcm='git commits'
 alias gcmc='git commits | read C'
 alias gcb='git current-branch'
 alias l=ls
-alias ll=ls -al
+alias ll='ls -al'
 alias ag='ag --path-to-ignore=~/.agignore'
 alias pg='ping google.com'
-
-
-# disable sharing history
-setopt no_share_history
 
 # Always use vim for everything
 export VISUAL=vim
@@ -131,8 +128,8 @@ source <(fzf --zsh)
 # source fzf-git
 source $HOME/bin/pkgs/fzf-git/fzf-git.sh
 
-# Copy the current output, can be used with $P. Can be added to the end
-# of a pipeline, and it will still echo the original input.
+# Copy the last pipeline output into $P. Can be appended to any pipeline
+# and still passes through the original output. Usage: some_cmd | c; echo $P
 function c() {
   tee >(cat) | read P
 }
@@ -172,7 +169,7 @@ function git-root {
   cd $(git rev-parse --show-toplevel)
 }
 
-# use jq to prettify json
+# Prettify a JSON file in-place using jq.
 function json-fmt {
   cat $1 | jq -r . | sponge $1
 }
@@ -184,7 +181,7 @@ function cdnew {
 function cddel {
   dir=$(pwd)
   cd ..
-  rm -r $(dir) $@
+  rm -r "$dir" "$@"
 }
 
 # enable direnv if installed
@@ -193,7 +190,5 @@ then
   eval "$(direnv hook zsh)"
 fi
 
-
 # Env-specific settings
 [[ -f ~/.zshrc_local ]] && source ~/.zshrc_local
-
