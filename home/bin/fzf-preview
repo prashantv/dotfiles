@@ -1,0 +1,11 @@
+#!/bin/bash
+# preview — fzf preview helper for files and directories.
+# Usage: preview <path>
+
+path="${1:-.}"
+
+if [ -d "$path" ]; then
+  eza --color=always "$path" 2>/dev/null || ls --color "$path"
+else
+  bat --color=always "$path" 2>/dev/null || cat "$path"
+fi

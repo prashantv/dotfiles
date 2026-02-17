@@ -41,10 +41,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu no
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
-# preview directory's content with eza when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls $realpath'
-# preview files using bat when completing vim
-zstyle ':fzf-tab:complete:vim:*' fzf-preview 'cat $realpath'
+# preview files and directories using bat/eza with fallbacks
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'fzf-preview $realpath'
+zstyle ':fzf-tab:complete:vim:*' fzf-preview 'fzf-preview $realpath'
 
 #
 # User config
