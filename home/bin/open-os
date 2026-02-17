@@ -1,5 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-open "$@"
+case "$(uname -r)" in
+  *microsoft*) cmd.exe /c start "" "$@" 2>/dev/null ;;
+  *Darwin*)    open "$@" ;;
+  *)           xdg-open "$@" ;;
+esac
 
