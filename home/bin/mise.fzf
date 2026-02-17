@@ -43,8 +43,10 @@ version=$(
 
 # If current directory has a mise.toml, use it directly.
 # Otherwise, ask which config file to target.
-if [[ -f mise.toml || -f .mise.toml ]]; then
-  mise use "$@" "$tool@$version"
+if [[ -f mise.toml ]]; then
+  mise use --path mise.toml "$@" "$tool@$version"
+elif [[ -f .mise.toml ]]; then
+  mise use --path .mise.toml "$@" "$tool@$version"
 else
   config=$(
     (
