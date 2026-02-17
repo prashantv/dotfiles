@@ -52,26 +52,6 @@ zstyle ':fzf-tab:complete:vim:*' fzf-preview 'cat $realpath'
 
 export GITHUB_USER=prashantv
 
-function jg() {
-  if [ -d $GOPATH/src/github.com/prashantv/$1 ]; then
-    cd $GOPATH/src/github.com/prashantv/$1
-    return
-  fi
-  if [ -d $GOPATH/src/$1 ]; then
-    cd $GOPATH/src/$1
-    return
-  fi
-
-  # Try every directory in $GOPATH to see if there's a match.
-  for f in $(echo $GOPATH/src/*); do
-    if [ -d $f/$1 ]; then
-      cd $f/$1
-      return
-    fi
-  done
-  echo "Failed to find match in $GOPATH for $1"
-}
-
 refresh_tmux_env() {
   for key in DISPLAY SSH_AUTH_SOCK SSH_CONNECTION SSH_CLIENT; do
     if (tmux show-environment | grep "^${key}" > /dev/null); then
@@ -98,10 +78,10 @@ eval "$(mise activate)"
 
 # Aliases
 
-# fasd with autojump aliases
-eval "$(fasd --init auto)"
-alias j='fasd_cd -d'     # cd, same functionality as j in autojump
-alias jj='fasd_cd -d -i' # cd with interactive selection
+# zoxide (directory jumping by frecency)
+eval "$(zoxide init zsh)"
+alias j=z
+alias jj=zi
 
 # vim quit
 alias ':q'=exit

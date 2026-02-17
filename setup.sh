@@ -187,14 +187,18 @@ else
   echo "  direnv already installed"
 fi
 
-# fasd
-if [ ! -f "$HOME/bin/fasd" ]; then
-  echo "  Downloading fasd..."
-  mkdir -p "$HOME/bin"
-  curl -fsSL "https://raw.githubusercontent.com/clvv/fasd/master/fasd" -o "$HOME/bin/fasd"
-  chmod +x "$HOME/bin/fasd"
-else
-  echo "  fasd already installed"
+# zoxide — one-time import from fasd/autojump if zoxide db is empty
+zoxide_db="${XDG_DATA_HOME:-$HOME/.local/share}/zoxide/db.zo"
+if [ ! -f "$zoxide_db" ] || [ ! -s "$zoxide_db" ]; then
+  autojump_db="$HOME/.local/share/autojump/autojump.txt"
+  fasd_db="$HOME/.fasd"
+  if [ -s "$autojump_db" ]; then
+    echo "  Importing autojump database into zoxide..."
+    mise exec -- zoxide import --from=autojump "$autojump_db"
+  elif [ -s "$fasd_db" ]; then
+    echo "  Importing fasd database into zoxide..."
+    mise exec -- zoxide import --from=z "$fasd_db"
+  fi
 fi
 
 # fzf-git
@@ -213,7 +217,7 @@ if ! command -v mise >/dev/null 2>&1; then
 fi
 export PATH="$HOME/.local/bin:$PATH"
 echo "  Running mise install for shell dependencies"
-mise install fzf
+mise install fzf zoxide
 
 # --- Misc setup ---
 

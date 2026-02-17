@@ -27,6 +27,7 @@ yq = "4"
 
 # Other
 tmux-fastcopy = "0.14.1"
+zoxide = "0.9"
 
 [tool_alias]
 gs = "ubi:abhinav/git-spice[exe=gs]"
