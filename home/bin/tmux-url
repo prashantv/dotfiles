@@ -42,8 +42,8 @@ echo "$urls" \
         ;;
       *)
         # open using the OS
-        read -r arg
-        open-os "$arg"
+        read -r arg || true
+        [[ -n "$arg" ]] && open-os "$arg"
         ;;
       esac
     } || true
