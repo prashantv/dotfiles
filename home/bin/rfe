@@ -1,20 +1,34 @@
 #!/bin/bash
-# rfe - Ripgrep + Fzf + Editor
 set -euo pipefail
+
+## rfe - Ripgrep + Fzf + Editor
 
 EDITOR="${EDITOR:-vim}"
 RELOAD='reload:rg --column --color=always --smart-case {q} || :'
-OPENER="if [[ \$FZF_SELECT_COUNT -eq 0 ]]; then
-					$EDITOR {1} +{2}     # No selection. Open the current line in the editor.
-				else
-					$EDITOR +cw -q {+f}  # Build quickfix list for the selected items.
-				fi"
+EDIT="if [[ \$FZF_SELECT_COUNT -eq 0 ]]; then
+				$EDITOR {1} +{2}
+			else
+				$EDITOR +cw -q {+f}
+			fi"
+
+# If stdout is a tty, enter edits directly. Otherwise, print the path.
+if [ -t 1 ]; then
+	ENTER="enter:become:$EDIT"
+	HEADER='Enter: edit, CTRL-O: os-open, CTRL-Y: copy, CTRL-E: edit'
+else
+	ENTER='enter:become:echo {1}'
+	HEADER='Enter: print path, CTRL-O: os-open, CTRL-Y: copy, CTRL-E: edit'
+fi
+
 fzf --disabled --ansi --multi \
-		--bind "start:$RELOAD" --bind "change:$RELOAD" \
-		--bind "enter:become:$OPENER" \
-		--bind "ctrl-o:execute:$OPENER" \
-		--bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
-		--delimiter : \
-		--preview 'bat --style=full --color=always --highlight-line {2} {1}' \
-		--preview-window '~4,+{2}+4/3,<80(up)' \
-		--query "$*"
+	--bind "start:$RELOAD" --bind "change:$RELOAD" \
+	--bind "$ENTER" \
+	--bind "ctrl-e:become:$EDIT" \
+	--bind 'ctrl-o:become:open-os "$(realpath {1})"' \
+	--bind 'ctrl-y:become:realpath {1} | tmux load-buffer -w -' \
+	--bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
+	--delimiter : \
+	--header "$HEADER" \
+	--preview 'bat --style=full --color=always --highlight-line {2} {1}' \
+	--preview-window '~4,+{2}+4/3,<80(up)' \
+	--query "$*"
