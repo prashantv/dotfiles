@@ -175,16 +175,7 @@ fi
 
 # direnv
 if [ ! -f "$HOME/bin/direnv" ]; then
-  echo "  Downloading direnv..."
-  direnv_version="2.32.3"
-  os="$(uname -s | tr '[:upper:]' '[:lower:]')"
-  arch="$(uname -m)"
-  case "$arch" in x86_64) arch="amd64" ;; aarch64|arm64) arch="arm64" ;; esac
-  mkdir -p "$HOME/bin"
-  curl -fsSL "https://github.com/direnv/direnv/releases/download/v${direnv_version}/direnv.${os}-${arch}" -o "$HOME/bin/direnv"
-  chmod +x "$HOME/bin/direnv"
-else
-  echo "  direnv already installed"
+  echo "Skip direnv, use brew"
 fi
 
 # zoxide — one-time import from fasd/autojump if zoxide db is empty
@@ -194,10 +185,10 @@ if [ ! -f "$zoxide_db" ] || [ ! -s "$zoxide_db" ]; then
   fasd_db="$HOME/.fasd"
   if [ -s "$autojump_db" ]; then
     echo "  Importing autojump database into zoxide..."
-    mise exec -- zoxide import --from=autojump "$autojump_db"
+    zoxide import --from=autojump "$autojump_db"
   elif [ -s "$fasd_db" ]; then
     echo "  Importing fasd database into zoxide..."
-    mise exec -- zoxide import --from=z "$fasd_db"
+    zoxide import --from=z "$fasd_db"
   fi
 fi
 
@@ -212,12 +203,10 @@ fi
 
 # mise
 if ! command -v mise >/dev/null 2>&1; then
-  echo "  Installing mise..."
-  curl -fsSL https://mise.run | sh
+  echo "  SKIP mise"
 fi
 export PATH="$HOME/.local/bin:$PATH"
-echo "  Running mise install for shell dependencies"
-mise install fzf zoxide
+echo "  SKIP mise install for shell deps"
 
 # --- Misc setup ---
 
