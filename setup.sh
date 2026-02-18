@@ -23,7 +23,7 @@ usage() {
 Usage: setup.sh [OPTIONS]
   --branch NAME      Branch to use (default: main)
   --git              Clone via SSH instead of downloading tarball
-  --profile NAME     Machine profile for zshrc_local (default: hostname)
+  --profile NAME     Profile for environment-specified overrides (saved to profile.local, defaults to hostname)
   --dir PATH         Install directory (default: $DOTFILES_DIR)
   --help             Show usage
 EOF
@@ -40,8 +40,6 @@ while [ $# -gt 0 ]; do
     *)         echo "Unknown option: $1" >&2; usage ;;
   esac
 done
-
-[ -z "$PROFILE" ] && PROFILE="$(hostname)"
 
 BACKUP_DIR="$HOME/dotfiles.bak"
 HOME_DIR="$DOTFILES_DIR/home"
@@ -118,6 +116,17 @@ symlink_dir() {
     ln -sf "$target" "$link"
   done)
 }
+
+# --- Resolve profile ---
+# Precedence: --profile flag > profile.local file > hostname.
+# The resolved profile is persisted to profile.local for future runs.
+PROFILE_FILE="$DOTFILES_DIR/profile.local"
+if [ -z "$PROFILE" ] && [ -f "$PROFILE_FILE" ]; then
+  PROFILE="$(cat "$PROFILE_FILE")"
+fi
+[ -z "$PROFILE" ] && PROFILE="$(hostname)"
+echo "Using profile: $PROFILE"
+echo "$PROFILE" > "$PROFILE_FILE"
 
 # --- Symlink common files ---
 echo "Symlinking dotfiles..."
