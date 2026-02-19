@@ -72,15 +72,14 @@ __git_files () {
 
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
-# Use mise
-eval "$(mise activate)"
-
 # Aliases
 
 # zoxide (directory jumping by frecency)
-eval "$(zoxide init zsh)"
-alias j=z
-alias jj=zi
+if command -v zoxide >/dev/null; then
+  eval "$(zoxide init zsh)"
+  alias j=z
+  alias jj=zi
+fi
 
 # vim quit
 alias ':q'=exit
@@ -103,9 +102,11 @@ export EDITOR=vim
 export HOMEBREW_NO_ANALYTICS=1
 
 # source fzf completions & keybindings
-source <(fzf --zsh)
-# source fzf-git
-source $HOME/bin/pkgs/fzf-git/fzf-git.sh
+if command -v fzf >/dev/null; then
+  source <(fzf --zsh)
+  # source fzf-git
+  [ -f "$HOME/bin/pkgs/fzf-git/fzf-git.sh" ] && source "$HOME/bin/pkgs/fzf-git/fzf-git.sh"
+fi
 
 # Copy the last pipeline output into $P. Can be appended to any pipeline
 # and still passes through the original output. Usage: some_cmd | c; echo $P
@@ -164,8 +165,7 @@ function cddel {
 }
 
 # enable direnv if installed
-if type direnv > /dev/null
-then
+if command -v direnv >/dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
