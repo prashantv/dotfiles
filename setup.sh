@@ -120,6 +120,22 @@ symlink_dir() {
   done)
 }
 
+# Clone or update a git repo at $2 from URL $1.
+git_update() {
+  if [ ! -d "$2" ]; then
+    echo "  Cloning $1..."
+    git clone --depth=1 "$1" "$2"
+  else
+    echo "  Updating $1..."
+    git -C "$2" pull
+  fi
+}
+
+# Warn if command $1 is not found, with install URL $2.
+warn_missing() {
+  command -v "$1" >/dev/null || echo "  WARNING: $1 not found on PATH. Install it: $2"
+}
+
 # --- Resolve profile ---
 # Precedence: --profile flag > profile.local file > hostname.
 # The resolved profile is persisted to profile.local for future runs.
@@ -135,7 +151,7 @@ echo "$PROFILE" > "$PROFILE_FILE"
 OPTIONS_FILE="$DOTFILES_DIR/options.local"
 CLI_SKIP_BINARIES="$SKIP_BINARIES"
 if [ -f "$OPTIONS_FILE" ]; then
-  source "$OPTIONS_FILE"
+  . "$OPTIONS_FILE"
 fi
 # CLI flag overrides file; default to 0 if unset
 if [ -n "$CLI_SKIP_BINARIES" ]; then
@@ -183,32 +199,15 @@ fi
 
 echo "Installing external dependencies..."
 
-# powerlevel10k
-if [ ! -d "$HOME/.local/share/powerlevel10k" ]; then
-  echo "  Cloning powerlevel10k..."
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/.local/share/powerlevel10k"
-else
-  echo "  Updating powerlevel10k..."
-  git -C "$HOME/.local/share/powerlevel10k" pull
-fi
-
-# fzf-tab
-if [ ! -d "$HOME/.local/share/fzf-tab" ]; then
-  echo "  Cloning fzf-tab..."
-  git clone --depth=1 https://github.com/Aloxaf/fzf-tab "$HOME/.local/share/fzf-tab"
-else
-  echo "  Updating fzf-tab..."
-  git -C "$HOME/.local/share/fzf-tab" pull
-fi
+git_update https://github.com/romkatv/powerlevel10k.git "$HOME/.local/share/powerlevel10k"
+git_update https://github.com/Aloxaf/fzf-tab "$HOME/.local/share/fzf-tab"
 
 # direnv
 if [ "$SKIP_BINARIES" != "1" ] && [ ! -f "$HOME/bin/direnv" ]; then
   echo "  Downloading direnv..."
   curl -fsSL "https://direnv.net/install.sh" | bash
 fi
-if ! command -v direnv >/dev/null; then
-  echo "  WARNING: direnv not found on PATH. Install it: https://direnv.net/docs/installation.html"
-fi
+warn_missing direnv "https://direnv.net/docs/installation.html"
 
 # fzf-git
 if [ ! -f "$HOME/bin/pkgs/fzf-git/fzf-git.sh" ]; then
@@ -234,13 +233,7 @@ if [ "$SKIP_BINARIES" != "1" ]; then
   if ! command -v zoxide >/dev/null; then
     mise install zoxide
   fi
-else
-  # fzf is a dependency for improved Ctrl-R.
-  if ! command -v fzf >/dev/null; then
-    echo "  WARNING: fzf not found on PATH. Install it: https://github.com/junegunn/fzf#installation"
-  fi
 fi
-
 
 # zoxide — one-time import from fasd/autojump if zoxide db is empty
 if command -v zoxide >/dev/null; then
@@ -256,9 +249,10 @@ if command -v zoxide >/dev/null; then
       zoxide import --from=z "$fasd_db"
     fi
   fi
-else
-  echo "  WARNING: zoxide not found on PATH. Install it: https://github.com/ajeetdsouza/zoxide#installation"
 fi
+
+warn_missing fzf "https://github.com/junegunn/fzf#installation"
+warn_missing zoxide "https://github.com/ajeetdsouza/zoxide#installation"
 
 # --- Misc setup ---
 
