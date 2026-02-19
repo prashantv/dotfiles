@@ -24,6 +24,7 @@ From an existing clone:
   --git              Clone via SSH instead of downloading tarball
   --profile NAME     Machine profile for zshrc_local (default: hostname)
   --dir PATH         Install directory (default: ~/dotfiles)
+  --skip-binaries    Don't download binaries; expect them to be user-installed
 ```
 
 To test a branch on a clean VM:
