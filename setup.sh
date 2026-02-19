@@ -17,6 +17,7 @@ DOTFILES_DIR="$HOME/dotfiles"
 BRANCH="main"
 PROFILE=""
 USE_GIT=0
+SKIP_BINARIES=""
 
 usage() {
   cat <<EOF
@@ -25,6 +26,7 @@ Usage: setup.sh [OPTIONS]
   --git              Clone via SSH instead of downloading tarball
   --profile NAME     Profile for environment-specified overrides (saved to profile.local, defaults to hostname)
   --dir PATH         Install directory (default: $DOTFILES_DIR)
+  --skip-binaries    Don't download binaries; expect them to be user-installed
   --help             Show usage
 EOF
   exit 0
@@ -36,6 +38,7 @@ while [ $# -gt 0 ]; do
     --git)     USE_GIT=1; shift ;;
     --profile) PROFILE="$2"; shift 2 ;;
     --dir)     DOTFILES_DIR="$2"; shift 2 ;;
+    --skip-binaries) SKIP_BINARIES=1; shift ;;
     --help)    usage ;;
     *)         echo "Unknown option: $1" >&2; usage ;;
   esac
@@ -128,6 +131,22 @@ fi
 echo "Using profile: $PROFILE"
 echo "$PROFILE" > "$PROFILE_FILE"
 
+# --- Load and persist options ---
+OPTIONS_FILE="$DOTFILES_DIR/options.local"
+CLI_SKIP_BINARIES="$SKIP_BINARIES"
+if [ -f "$OPTIONS_FILE" ]; then
+  source "$OPTIONS_FILE"
+fi
+# CLI flag overrides file; default to 0 if unset
+if [ -n "$CLI_SKIP_BINARIES" ]; then
+  SKIP_BINARIES="$CLI_SKIP_BINARIES"
+fi
+: "${SKIP_BINARIES:=0}"
+# Persist
+cat > "$OPTIONS_FILE" <<EOF
+SKIP_BINARIES=$SKIP_BINARIES
+EOF
+
 # --- Symlink common files ---
 echo "Symlinking dotfiles..."
 symlink_dir "$HOME_DIR"
@@ -148,7 +167,7 @@ fi
 # --- Generate .gitconfig_delta ---
 
 echo "Generating ~/.gitconfig_delta..."
-if command -v delta >/dev/null 2>&1; then
+if command -v delta >/dev/null; then
   cat > "$HOME/.gitconfig_delta" <<'GITCFG'
 [core]
 	pager = delta
@@ -183,31 +202,12 @@ else
 fi
 
 # direnv
-if [ ! -f "$HOME/bin/direnv" ]; then
+if [ "$SKIP_BINARIES" != "1" ] && [ ! -f "$HOME/bin/direnv" ]; then
   echo "  Downloading direnv..."
-  direnv_version="2.32.3"
-  os="$(uname -s | tr '[:upper:]' '[:lower:]')"
-  arch="$(uname -m)"
-  case "$arch" in x86_64) arch="amd64" ;; aarch64|arm64) arch="arm64" ;; esac
-  mkdir -p "$HOME/bin"
-  curl -fsSL "https://github.com/direnv/direnv/releases/download/v${direnv_version}/direnv.${os}-${arch}" -o "$HOME/bin/direnv"
-  chmod +x "$HOME/bin/direnv"
-else
-  echo "  direnv already installed"
+  curl -fsSL "https://direnv.net/install.sh" | bash
 fi
-
-# zoxide — one-time import from fasd/autojump if zoxide db is empty
-zoxide_db="${XDG_DATA_HOME:-$HOME/.local/share}/zoxide/db.zo"
-if [ ! -f "$zoxide_db" ] || [ ! -s "$zoxide_db" ]; then
-  autojump_db="$HOME/.local/share/autojump/autojump.txt"
-  fasd_db="$HOME/.fasd"
-  if [ -s "$autojump_db" ]; then
-    echo "  Importing autojump database into zoxide..."
-    mise exec -- zoxide import --from=autojump "$autojump_db"
-  elif [ -s "$fasd_db" ]; then
-    echo "  Importing fasd database into zoxide..."
-    mise exec -- zoxide import --from=z "$fasd_db"
-  fi
+if ! command -v direnv >/dev/null; then
+  echo "  WARNING: direnv not found on PATH. Install it: https://direnv.net/docs/installation.html"
 fi
 
 # fzf-git
@@ -220,20 +220,52 @@ else
 fi
 
 # mise
-if ! command -v mise >/dev/null 2>&1; then
-  echo "  Installing mise..."
-  curl -fsSL https://mise.run | sh
+if [ "$SKIP_BINARIES" != "1" ]; then
+  if ! command -v mise >/dev/null; then
+    echo "  Installing mise..."
+    curl https://mise.run | sh
+    export PATH="$HOME/.local/bin:$PATH"
+  fi
+
+  # use mise to install dependencies
+  if ! command -v fzf >/dev/null; then
+    mise install fzf
+  fi
+  if ! command -v zoxide >/dev/null; then
+    mise install zoxide
+  fi
+else
+  # fzf is a dependency for improved Ctrl-R.
+  if ! command -v fzf >/dev/null; then
+    echo "  WARNING: fzf not found on PATH. Install it: https://github.com/junegunn/fzf#installation"
+  fi
 fi
-export PATH="$HOME/.local/bin:$PATH"
-echo "  Running mise install for shell dependencies"
-mise install fzf zoxide
+
+
+# zoxide — one-time import from fasd/autojump if zoxide db is empty
+if command -v zoxide >/dev/null; then
+  zoxide_db="${XDG_DATA_HOME:-$HOME/.local/share}/zoxide/db.zo"
+  if [ ! -f "$zoxide_db" ] || [ ! -s "$zoxide_db" ]; then
+    autojump_db="$HOME/.local/share/autojump/autojump.txt"
+    fasd_db="$HOME/.fasd"
+    if [ -s "$autojump_db" ]; then
+      echo "  Importing autojump database into zoxide..."
+      zoxide import --from=autojump "$autojump_db"
+    elif [ -s "$fasd_db" ]; then
+      echo "  Importing fasd database into zoxide..."
+      zoxide import --from=z "$fasd_db"
+    fi
+  fi
+else
+  echo "  WARNING: zoxide not found on PATH. Install it: https://github.com/ajeetdsouza/zoxide#installation"
+fi
 
 # --- Misc setup ---
 
 mkdir -p "$HOME/tmp"
 
 # Disable brew analytics on macOS
-if command -v brew >/dev/null 2>&1; then
+if command -v brew >/dev/null; then
   brew analytics off
 fi
 
