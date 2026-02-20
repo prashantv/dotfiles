@@ -97,6 +97,8 @@
 	navigationComment = multiple
 
 [spice "shorthand"]
+	m = trunk
+	main = trunk
 	tr = branch track
 	ch = branch checkout
 	sync = repo sync
