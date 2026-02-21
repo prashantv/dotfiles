@@ -72,6 +72,11 @@ __git_files () {
 
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 
+# Use mise if installed
+if command -v mise >/dev/null; then
+  eval "$(mise activate)"
+fi
+
 # Aliases
 
 # zoxide (directory jumping by frecency)
