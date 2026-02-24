@@ -10,8 +10,6 @@ set -eu
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 KEY_ENC="$SCRIPT_DIR/atuin-key.enc"
-KEY_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/atuin"
-KEY_FILE="$KEY_DIR/key"
 
 if [ ! -f "$KEY_ENC" ]; then
   echo "Error: encrypted key not found at $KEY_ENC" >&2
@@ -23,16 +21,13 @@ if ! command -v atuin >/dev/null; then
   exit 1
 fi
 
-# Decrypt the atuin key
-mkdir -p "$KEY_DIR"
+# Decrypt the atuin key into a variable
 echo "Decrypting atuin key..."
-openssl enc -aes-256-cbc -pbkdf2 -d -in "$KEY_ENC" -out "$KEY_FILE"
-chmod 600 "$KEY_FILE"
-echo "Key written to $KEY_FILE"
+KEY="$(openssl enc -aes-256-cbc -pbkdf2 -d -in "$KEY_ENC")"
 
-# Login to atuin
+# Login to atuin (passes the key inline, avoiding conflicts with existing key files)
 echo "Logging in to atuin..."
-atuin login -u prashant
+atuin login -u prashant -k "$KEY"
 
 echo ""
 echo "Atuin setup complete! Run 'atuin sync' to sync history."
