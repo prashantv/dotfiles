@@ -26,14 +26,12 @@ gron = "0.7" # greppable json
 yq = "4"
 
 # Other
-ente = "cli-v0.2.3"
 tmux-fastcopy = "0.14.1"
 zoxide = "0.9"
 
 [tool_alias]
 gs = "github:abhinav/git-spice"
 tmux-fastcopy = "github:abhinav/tmux-fastcopy"
-ente = "github:ente-io/ente"
 
 [settings]
 experimental = true
