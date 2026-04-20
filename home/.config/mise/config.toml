@@ -2,7 +2,7 @@
 
 # Git related tools
 github-cli = "latest"
-gs = "0.22.0"
+gs = "0.26.0"
 
 # Go related tools
 go = "1.25.4"
@@ -30,7 +30,7 @@ tmux-fastcopy = "0.14.1"
 zoxide = "0.9"
 
 [tool_alias]
-gs = "ubi:abhinav/git-spice[exe=gs]"
+gs = "github:abhinav/git-spice"
 tmux-fastcopy = "ubi:abhinav/tmux-fastcopy"
 ente = "ubi:ente-io/ente[tag_regex=cli-v0]"
 

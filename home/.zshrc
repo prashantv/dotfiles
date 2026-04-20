@@ -89,6 +89,7 @@ fi
 # vim quit
 alias ':q'=exit
 alias g=git
+alias gs=git-spice
 alias gb='git branches'
 alias gbc='git branches | read C'
 alias gcm='git commits'
