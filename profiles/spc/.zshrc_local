@@ -1,5 +1,5 @@
 eval "$(atuin init zsh --disable-up-arrow --disable-ctrl-r)"
 eval "$(atuin-fzf --zsh)"
 
-# Disabled appendWindowsPath, so explicitly add System32 for cmd.exe, clip.exe etc.
-export PATH="$PATH:/mnt/c/Windows/System32"
+# Disabled appendWindowsPath to avoid zsh auto-complete perf issues.
+# Use winexe instead.

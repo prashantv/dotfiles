@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#
+# winexe — run a Windows executable from WSL by name, resolving it through the
+# Windows PATH so the full path never has to be typed.
+#   usage: winexe <command> [args...]
+
+exe="${1:-}"
+if [ -z "$exe" ]; then
+    echo "usage: winexe <command> [args...]" >&2
+    exit 1
+fi
+
+# cmd.exe emits CRLF and where.exe can return several matches — keep the first clean line.
+win_path=$(/mnt/c/windows/system32/cmd.exe /c where "$exe" 2>/dev/null | tr -d '\r' | head -n 1)
+
+if [ -z "$win_path" ]; then
+    echo "winexe: $exe not found in Windows PATH" >&2
+    exit 1
+fi
+
+# where.exe yields a Windows path; WSL can only execute the POSIX form.
+# exec replaces this shell so the target's exit code passes straight through.
+wsl_path=$(wslpath -u "$win_path")
+exec "$wsl_path" "${@:2}"
